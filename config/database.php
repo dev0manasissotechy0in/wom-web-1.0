@@ -1,9 +1,16 @@
 <?php
 class Database {
+    // Live DB
+    // private $host = 'localhost';
+    // private $db_name = 'u972336461_wom_db';
+    // private $username = 'u972336461_wom_useri';
+    // private $password = '9s1&^V/b';
+    
+    // Xampp DB
     private $host = 'localhost';
     private $db_name = 'u972336461_wom_db';
-    private $username = 'u972336461_wom_useri';
-    private $password = '9s1&^V/b';
+    private $username = 'root';
+    private $password = '';
     public $conn;
 
     public function connect() {

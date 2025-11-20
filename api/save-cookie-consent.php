@@ -56,6 +56,7 @@ try {
 
     // Prepare consent data
     $necessary = (bool)($data['necessary'] ?? true);
+    $functional = (bool)($data['functional'] ?? false);
     $analytics = (bool)($data['analytics'] ?? false);
     $marketing = (bool)($data['marketing'] ?? false);
 
@@ -67,18 +68,18 @@ try {
     if ($existing) {
         // Update existing consent
         $stmt = $db->prepare("UPDATE cookie_consent 
-                             SET necessary = ?, analytics = ?, marketing = ?, 
+                             SET necessary = ?, functional = ?, analytics = ?, marketing = ?, 
                                  ip_address = ?, updated_at = NOW() 
                              WHERE session_id = ?");
-        $stmt->execute([$necessary, $analytics, $marketing, $ip_address, $session_id]);
+        $stmt->execute([$necessary, $functional, $analytics, $marketing, $ip_address, $session_id]);
 
         $message = 'Cookie consent updated successfully';
     } else {
         // Insert new consent
         $stmt = $db->prepare("INSERT INTO cookie_consent 
-                             (session_id, necessary, analytics, marketing, ip_address, created_at) 
-                             VALUES (?, ?, ?, ?, ?, NOW())");
-        $stmt->execute([$session_id, $necessary, $analytics, $marketing, $ip_address]);
+                             (session_id, necessary, functional, analytics, marketing, ip_address, created_at) 
+                             VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->execute([$session_id, $necessary, $functional, $analytics, $marketing, $ip_address]);
 
         $message = 'Cookie consent saved successfully';
     }
@@ -90,6 +91,7 @@ try {
         'message' => $message,
         'consent' => [
             'necessary' => $necessary,
+            'functional' => $functional,
             'analytics' => $analytics,
             'marketing' => $marketing
         ]
@@ -97,11 +99,13 @@ try {
 
 } catch (PDOException $e) {
     error_log("Cookie consent save error: " . $e->getMessage());
+    error_log("File: " . $e->getFile() . ", Line: " . $e->getLine());
 
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error' => 'Database error occurred'
+        'error' => 'Database error occurred',
+        'debug' => $e->getMessage()
     ]);
 }
 ?>

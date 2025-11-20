@@ -1,3 +1,9 @@
+// DISABLED: JS-Based Cookie Consent Management
+// Using PHP-based cookie management instead (see: includes/cookie-banner.php)
+// This file is kept for reference but is no longer used
+// To re-enable, uncomment the code below
+
+/*
 // Cookie Consent Management
 (function() {
     'use strict';
@@ -176,3 +182,5 @@
     });
     
 })();
+
+*/

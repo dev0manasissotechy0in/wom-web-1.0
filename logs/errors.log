@@ -11,3 +11,6 @@
 [2025-11-10 13:47:08] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'106.222.212.244' (using password: YES)
 [2025-11-10 13:47:09] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'106.222.212.244' (using password: YES)
 [2025-11-10 13:56:27] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'46.28.45.103' (using password: YES)
+[2025-11-20 14:01:42] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for C failed: No such host is known. 
+[2025-11-20 14:01:45] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for C failed: No such host is known. 
+[2025-11-20 14:01:47] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for C failed: No such host is known. 

@@ -1,74 +1,145 @@
-<!-- Cookie Consent Banner -->
-<div id="cookieConsentBanner" class="cookie-banner" style="display:none;">
-    <div class="cookie-content">
-        <h3>Cookie Preferences</h3>
-        <p>We use cookies to enhance your browsing experience and analyze site traffic.</p>
+<!-- PHP-Based Cookie Consent Banner -->
+<?php
+// Check if consent has been saved in database
+$hasConsent = false;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($db) && $db instanceof PDO) {
+    try {
+        $stmt = $db->prepare("SELECT id FROM cookie_consent WHERE session_id = ?");
+        $stmt->execute([session_id()]);
+        $hasConsent = (bool)$stmt->fetch();
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+}
+
+$showBanner = !$hasConsent ? 'block' : 'none';
+?>
+
+<div id="cookieConsentBanner" class="cookie-banner" style="display:<?php echo $showBanner; ?>;">
+    <div class="cookie-container">
+        <button class="cookie-close" id="cookieClose" onclick="closeCookieBanner()" title="Close">
+            <i class="fas fa-times"></i>
+        </button>
         
-        <div class="cookie-categories">
-            <label>
+        <div class="cookie-header">
+            <i class="fas fa-cookie-bite"></i>
+            <h3>Cookie Preferences</h3>
+        </div>
+        
+        <p class="cookie-description">We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. Please choose your cookie preferences:</p>
+        
+        <div class="cookie-options">
+            <label class="cookie-option">
                 <input type="checkbox" id="necessary" checked disabled> 
-                Necessary (Always Active)
+                <span class="cookie-label">
+                    <strong>Necessary Cookies</strong>
+                    <small>Required for basic site functionality (Always Active)</small>
+                </span>
             </label>
-            <label>
+            <label class="cookie-option">
                 <input type="checkbox" id="functional"> 
-                Functional
+                <span class="cookie-label">
+                    <strong>Functional Cookies</strong>
+                    <small>Enhance your browsing experience with additional features</small>
+                </span>
             </label>
-            <label>
+            <label class="cookie-option">
                 <input type="checkbox" id="analytics"> 
-                Analytics
+                <span class="cookie-label">
+                    <strong>Analytics Cookies</strong>
+                    <small>Help us understand how visitors use our site</small>
+                </span>
             </label>
-            <label>
+            <label class="cookie-option">
                 <input type="checkbox" id="marketing"> 
-                Marketing & Advertising
+                <span class="cookie-label">
+                    <strong>Marketing & Advertising</strong>
+                    <small>Used to deliver personalized advertisements</small>
+                </span>
             </label>
         </div>
         
-        <div class="cookie-buttons">
-            <button onclick="acceptAllCookies()">Accept All</button>
-            <button onclick="acceptSelectedCookies()">Save Preferences</button>
-            <button onclick="rejectAllCookies()">Reject All</button>
+        <div class="cookie-actions">
+            <button id="acceptAllBtn" class="btn-accept-all" onclick="acceptAllCookies()">Accept All</button>
+            <button id="savePreferencesBtn" class="btn-save" onclick="acceptSelectedCookies()">Save Preferences</button>
+            <button id="rejectAllBtn" class="btn-reject" onclick="rejectAllCookies()">Reject All</button>
+            <a href="/cookie-policy.php" class="btn-learn-more">Learn More</a>
         </div>
     </div>
 </div>
 
 <script>
-function showCookieBanner() {
-    if (!localStorage.getItem('cookieConsent')) {
-        document.getElementById('cookieConsentBanner').style.display = 'block';
+// PHP-BASED COOKIE CONSENT - Server-Side Management
+// Uses PHP backend for cookie consent storage (database-driven)
+
+// Close banner without saving (user can choose later)
+function closeCookieBanner() {
+    const banner = document.getElementById('cookieConsentBanner');
+    if (banner) {
+        banner.style.display = 'none';
     }
 }
 
+// Accept all cookies
 function acceptAllCookies() {
-    saveConsent({necessary: true, functional: true, analytics: true, marketing: true});
-}
-
-function acceptSelectedCookies() {
-    saveConsent({
+    const consent = {
         necessary: true,
-        functional: document.getElementById('functional').checked,
-        analytics: document.getElementById('analytics').checked,
-        marketing: document.getElementById('marketing').checked
-    });
+        functional: true,
+        analytics: true,
+        marketing: true
+    };
+    saveConsent(consent);
 }
 
-function rejectAllCookies() {
-    saveConsent({necessary: true, functional: false, analytics: false, marketing: false});
-}
-
-function saveConsent(consent) {
-    localStorage.setItem('cookieConsent', JSON.stringify(consent));
-    document.getElementById('cookieConsentBanner').style.display = 'none';
+// Accept selected cookies with proper null checks
+function acceptSelectedCookies() {
+    const functionalCheckbox = document.getElementById('functional');
+    const analyticsCheckbox = document.getElementById('analytics');
+    const marketingCheckbox = document.getElementById('marketing');
     
-    // Send to backend
-    fetch('/api/save-consent.php', {
+    const consent = {
+        necessary: true,
+        functional: functionalCheckbox ? functionalCheckbox.checked : false,
+        analytics: analyticsCheckbox ? analyticsCheckbox.checked : false,
+        marketing: marketingCheckbox ? marketingCheckbox.checked : false
+    };
+    
+    saveConsent(consent);
+}
+
+// Reject all non-necessary cookies
+function rejectAllCookies() {
+    const consent = {
+        necessary: true,
+        functional: false,
+        analytics: false,
+        marketing: false
+    };
+    saveConsent(consent);
+}
+
+// Save consent to backend (PHP-based management)
+function saveConsent(consent) {
+    // Hide banner immediately
+    const banner = document.getElementById('cookieConsentBanner');
+    if (banner) {
+        banner.style.display = 'none';
+    }
+    
+    // Send to backend PHP API for database storage
+    fetch('/api/save-cookie-consent.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(consent)
-    });
-    
-    // Reload to apply tracking scripts
-    location.reload();
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Cookie consent saved successfully:', data);
+    })
+    .catch(err => console.error('Error saving cookie consent:', err));
 }
-
-window.addEventListener('load', showCookieBanner);
 </script>

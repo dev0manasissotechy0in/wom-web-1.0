@@ -66,22 +66,4 @@ require_once 'includes/header.php';
     </div>
 </section>
 
-<style>
-.page-hero {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-    color: white;
-    padding: 80px 0;
-    text-align: center;
-}
-
-.page-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.about-page {
-    padding: 80px 0;
-}
-</style>
-
 <?php require_once 'includes/footer.php'; ?>

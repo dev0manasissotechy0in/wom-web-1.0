@@ -1,6 +1,13 @@
 <?php
 require_once 'config/config.php';
 
+// Function to calculate reading time
+function calculateReadTime($text) {
+    $words = str_word_count(strip_tags($text));
+    $minutes = ceil($words / 200); // Average reading speed: 200 words per minute
+    return $minutes;
+}
+
 // Get slug from URL
 $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
 
@@ -73,56 +80,66 @@ $customSeoData = [
 
 <?php require_once 'includes/header.php'; ?>
 
-<article class="blog-detail">
-    <div class="container">
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-            <a href="/">Home</a> / 
-            <a href="/blogs.php">Blog</a> / 
-            <a href="/blog-category?category=<?php echo urlencode($categorySlug); ?>">
-                <?php echo htmlspecialchars($blog['category']); ?>
-            </a> / 
-            <?php echo htmlspecialchars($blog['title']); ?>
-        </div>
+<article class="blog-detail container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-nav">
+            <div class="breadcrumb">
+                <a href="/">Home</a> / 
+                <a href="/blogs.php">Blog</a> / 
+                <a href="/blog-category?category=<?php echo urlencode($categorySlug); ?>">
+                    <?php echo htmlspecialchars($blog['category']); ?>
+                </a> / 
+                <span><?php echo htmlspecialchars($blog['title']); ?></span>
+            </div>
+        </nav>
         
         <!-- Blog Header -->
-        <div class="blog-header">
+        <div class="blog-header-section">
             <!-- Clickable Category -->
             <a href="/blog-category?category=<?php echo urlencode($categorySlug); ?>" class="category-badge">
-                <span><i class="far fa-folder"></i> <?php echo htmlspecialchars($blog['category']); ?></span>
+                <i class="far fa-folder"></i> <?php echo htmlspecialchars($blog['category']); ?>
             </a>
             
-            <h1><?php echo htmlspecialchars($blog['title']); ?></h1>
+            <h1 class="blog-title"><?php echo htmlspecialchars($blog['title']); ?></h1>
             
             <div class="blog-meta">
-                <span><i class="far fa-user"></i> <?php echo htmlspecialchars($blog['author'] ?? 'Admin'); ?></span>
-                <span><i class="far fa-calendar"></i> <?php echo date('M d, Y', strtotime($blog['created_at'])); ?></span>
-                <span><i class="far fa-eye"></i> <?php echo $blog['views']; ?> views</span>
+                <span class="meta-item"><i class="far fa-user"></i> <?php echo htmlspecialchars($blog['author'] ?? 'Admin'); ?></span>
+                <span class="meta-separator">•</span>
+                <span class="meta-item"><i class="far fa-calendar"></i> <?php echo date('M d, Y', strtotime($blog['created_at'])); ?></span>
+                <span class="meta-separator">•</span>
+                <span class="meta-item"><i class="far fa-eye"></i> <?php echo $blog['views']; ?> views</span>
+                <span class="meta-separator">•</span>
+                <span class="meta-item read-time"><i class="far fa-clock"></i> <?php echo calculateReadTime($blog['content']); ?> min read</span>
             </div>
         </div>
         
         <!-- Featured Image -->
         <?php if(!empty($blog['featured_image'])): ?>
-            <div class="featured-image">
+            <div class="featured-image-container">
                 <img src="<?php echo htmlspecialchars($blog['featured_image']); ?>" 
-                     alt="<?php echo htmlspecialchars($blog['title']); ?>">
+                     alt="<?php echo htmlspecialchars($blog['title']); ?>"
+                     class="featured-image">
             </div>
         <?php endif; ?>
         
         <!-- Blog Content -->
-        <div class="blog-content">
-            <?php echo $blog['content']; ?>
+        <div class="blog-content-wrapper">
+            <div class="blog-content">
+                <?php echo $blog['content']; ?>
+            </div>
         </div>
         
         <!-- Tags -->
         <?php if(!empty($blog['tags'])): ?>
-            <div class="blog-tags">
+            <div class="blog-tags-section">
                 <strong>Tags:</strong>
-                <?php 
-                $tags = explode(',', $blog['tags']);
-                foreach($tags as $tag): ?>
-                    <span class="tag"><?php echo htmlspecialchars(trim($tag)); ?></span>
-                <?php endforeach; ?>
+                <div class="blog-tags">
+                    <?php 
+                    $tags = explode(',', $blog['tags']);
+                    foreach($tags as $tag): ?>
+                        <span class="tag"><?php echo htmlspecialchars(trim($tag)); ?></span>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php endif; ?>
         
@@ -180,7 +197,6 @@ $customSeoData = [
                 </div>
             </section>
         <?php endif; ?>
-    </div>
 </article>
 
 <?php require_once 'includes/footer.php'; ?>

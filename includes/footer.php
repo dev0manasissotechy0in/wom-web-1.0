@@ -132,9 +132,10 @@ $settings = getSiteSettings($db);
 </button>
 
 <!-- JavaScript -->
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/cookie-consent.js"></script>
-<script src="/assets/js/tracking.js"></script>
+<!-- <script src="/assets/js/main.js"></script>
+<script src="/assets/js/cookie-consent.js"></script>-->
+
+<script src="/assets/js/tracking.js"></script> 
 
 <script>
 // Display Current Date and Time

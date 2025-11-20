@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 // Error Reporting
 error_reporting(E_ALL);

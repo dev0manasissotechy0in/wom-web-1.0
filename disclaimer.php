@@ -1,17 +1,5 @@
 <?php require_once 'includes/header.php'; ?>
 
-<style>
-.page-hero { background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%); color: white; padding: 100px 0 60px; text-align: center; }
-.legal-content { max-width: 900px; margin: 80px auto; padding: 0 20px; }
-.legal-content h2 { font-size: 2rem; margin: 40px 0 20px; color: #000; font-weight: 700; }
-.legal-content h3 { font-size: 1.5rem; margin: 30px 0 15px; color: #333; font-weight: 600; }
-.legal-content p { color: #666; line-height: 1.8; margin-bottom: 20px; font-size: 1.05rem; }
-.legal-content ul { margin: 20px 0; padding-left: 30px; }
-.legal-content li { color: #666; line-height: 1.8; margin-bottom: 10px; }
-.last-updated { background: #f8f8f8; padding: 15px 20px; border-left: 4px solid #000; margin-bottom: 40px; font-style: italic; color: #666; }
-.warning-box { background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107; color: #856404; }
-</style>
-
 <section class="page-hero">
     <div class="container">
         <h1>Disclaimer</h1>

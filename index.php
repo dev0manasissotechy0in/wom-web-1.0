@@ -282,7 +282,7 @@ require_once 'includes/header.php';
                         <div class="product-image">
                             <img src="<?php echo htmlspecialchars($product['image']); ?>" 
                                  alt="<?php echo htmlspecialchars($product['product_name']); ?>"
-                                 onerror="this.src='https://placeholder.co/400x250/000000/FFFFFF?text=<?php echo urlencode($product['product_name']); ?>'">
+                                 onerror="this.src='https://placehold.co/600x400?text=<?php echo urlencode($product['product_name']); ?>'">
                             <div class="product-badge">Popular</div>
                         </div>
                         
