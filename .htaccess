@@ -1,0 +1,136 @@
+# ================================================
+# EXCLUDE CONTACT FORM HANDLERS (MUST BE EARLY!)
+# ================================================
+RewriteRule ^contact-submit\.php$ - [L]
+RewriteRule ^contact-sumbit\.php$ - [L]
+
+# Then other rules below...
+
+# Resource routes
+RewriteRule ^resources/([^/]+)/?$ resource-detail.php?slug=$1 [L,QSA]
+RewriteRule ^resources/?$ resources.php [L,QSA]
+
+
+# Add to .htaccess - resources-downloads
+RewriteRule ^process-download\.php$ - [L]
+RewriteRule ^download\.php$ - [L]
+
+
+# ================================================
+# DIGITAL MARKETING PRO - URL REWRITE RULES
+# ================================================
+
+# Enable Rewrite Engine
+RewriteEngine On
+RewriteBase /
+
+# ================================================
+# EXCLUDE API & ADMIN FOLDERS (MUST BE FIRST!)
+# ================================================
+RewriteRule ^api/ - [L]
+RewriteRule ^admin/ - [L]
+
+# ================================================
+# EXCLUDE CONTACT FORM HANDLERS
+# ================================================
+RewriteRule ^contact-submit\.php$ - [L]
+RewriteRule ^contact-sumbit\.php$ - [L]
+
+# ================================================
+# CASE STUDIES & BLOG ROUTES
+# ================================================
+
+# Case study detail: case-studies/slug
+RewriteRule ^case-studies/([^/]+)/?$ case-study-detail.php?slug=$1 [L,QSA]
+
+# All case studies listing
+RewriteRule ^case-studies/?$ case-studies.php [L,QSA]
+
+# Blog detail: blogs/category/slug
+RewriteRule ^blogs/([^/]+)/([^/]+)/?$ blog-detailed.php?slug=$2 [L,QSA]
+
+# Blog category listing: blogs/category
+RewriteRule ^blogs/([^/]+)/?$ blogs.php?category=$1 [L,QSA]
+
+# All blogs listing: blogs
+RewriteRule ^blogs/?$ blogs.php [L,QSA]
+
+# ================================================
+# REMOVE TRAILING SLASHES
+# ================================================
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [R=301,L]
+
+# ================================================
+# REMOVE .PHP EXTENSION (EXCLUDE CONTACT FORMS)
+# ================================================
+
+# Redirect .php files to extensionless URLs (EXCLUDE contact forms)
+RewriteCond %{REQUEST_URI} !^/api/ [NC]
+RewriteCond %{REQUEST_URI} !^/admin/ [NC]
+RewriteCond %{REQUEST_URI} !^/contact-submit\.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/contact-sumbit\.php$ [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Route extensionless URLs to .php files (EXCLUDE contact forms)
+RewriteCond %{REQUEST_URI} !^/api/ [NC]
+RewriteCond %{REQUEST_URI} !^/admin/ [NC]
+RewriteCond %{REQUEST_URI} !^/contact-submit\.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/contact-sumbit\.php$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L,QSA]
+
+# ================================================
+# SECURITY & PERFORMANCE
+# ================================================
+
+# Prevent directory listing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
+
+# Protect sensitive files
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sql|md|txt)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Protect config files
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+    Allow from env=REDIRECT_STATUS
+</Files>
+
+<Files "database.php">
+    Order Allow,Deny
+    Deny from all
+    Allow from env=REDIRECT_STATUS
+</Files>
+
+# ================================================
+# COMPRESSION & CACHING
+# ================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# ================================================
+# UTF-8 ENCODING
+# ================================================
+AddDefaultCharset UTF-8

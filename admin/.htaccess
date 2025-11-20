@@ -1,0 +1,15 @@
+# ================================================
+# ADMIN FOLDER - ALLOW .PHP EXTENSION REMOVAL
+# ================================================
+
+RewriteEngine On
+RewriteBase /admin/
+
+# Allow .php files to work with or without extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L,QSA]
+
+# Disable directory listing
+Options -Indexes

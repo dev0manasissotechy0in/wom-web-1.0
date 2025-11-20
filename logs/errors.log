@@ -1,0 +1,13 @@
+[2025-10-05 11:05:22] Connection Error: SQLSTATE[HY000] [1049] Unknown database 'digital_marketing'
+[2025-10-05 14:32:51] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+[2025-10-05 14:36:31] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for https failed: Name or service not known
+[2025-10-05 14:36:34] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for https failed: Name or service not known
+[2025-10-05 14:36:34] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for https failed: Name or service not known
+[2025-10-05 14:36:34] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for https failed: Name or service not known
+[2025-10-05 14:36:38] Connection Error: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for https failed: Name or service not known
+[2025-10-05 14:37:30] Connection Error: SQLSTATE[HY000] [2006] MySQL server has gone away
+[2025-10-05 14:38:42] Connection Error: SQLSTATE[HY000] [2006] MySQL server has gone away
+[2025-11-10 13:44:04] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'106.222.212.244' (using password: YES)
+[2025-11-10 13:47:08] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'106.222.212.244' (using password: YES)
+[2025-11-10 13:47:09] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'106.222.212.244' (using password: YES)
+[2025-11-10 13:56:27] Connection Error: SQLSTATE[HY000] [1045] Access denied for user 'wom_self_u'@'46.28.45.103' (using password: YES)

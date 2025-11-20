@@ -1,0 +1,15 @@
+[08-Oct-2025 18:00:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/contact.php(1): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[08-Oct-2025 18:00:38 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/index.php(2): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[08-Oct-2025 18:02:35 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/old_contact.php(1): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3

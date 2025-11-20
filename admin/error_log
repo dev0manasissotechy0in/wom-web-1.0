@@ -1,0 +1,57 @@
+[08-Oct-2025 13:32:20 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:32:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:33:52 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:33:52 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:35:02 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:35:02 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:43:17 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:43:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:43:18 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:43:18 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:43:18 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 13:43:18 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 14:13:54 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 14:13:54 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 14:20:03 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[08-Oct-2025 14:20:03 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/resources.php on line 3
+[09-Oct-2025 06:51:17 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php on line 3
+[09-Oct-2025 06:51:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php on line 3
+[11-Oct-2025 14:14:34 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php on line 3
+[11-Oct-2025 14:14:34 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php on line 3
+[11-Oct-2025 14:14:36 UTC] PHP Warning:  require_once(../includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php on line 3
+[11-Oct-2025 14:14:36 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/login.php on line 3
+[13-Oct-2025 09:43:40 UTC] PHP Parse error:  syntax error, unexpected token "," in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/services.php on line 20
+[13-Oct-2025 09:43:41 UTC] PHP Parse error:  syntax error, unexpected token "," in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/admin/services.php on line 20

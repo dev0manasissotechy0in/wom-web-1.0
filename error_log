@@ -1,0 +1,295 @@
+[05-Oct-2025 10:07:19 UTC] PHP Parse error:  syntax error, unexpected identifier "slug" in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/blog-detailed.php on line 14
+[05-Oct-2025 10:08:23 UTC] PHP Parse error:  syntax error, unexpected identifier "slug" in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/blog-detailed.php on line 14
+[05-Oct-2025 10:08:24 UTC] PHP Parse error:  syntax error, unexpected identifier "slug" in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/blog-detailed.php on line 14
+[05-Oct-2025 10:40:41 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 10:41:51 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 10:42:09 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 10:42:34 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 10:46:13 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 16:52:52 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 16:59:41 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 17:26:45 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 17:43:13 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 17:43:15 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[05-Oct-2025 17:43:17 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[06-Oct-2025 14:40:36 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[07-Oct-2025 07:44:25 UTC] PHP Parse error:  syntax error, unexpected token ">" in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 22
+[07-Oct-2025 07:45:27 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/index.php on line 98
+[07-Oct-2025 07:45:27 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/index.php:98
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/index.php on line 98
+[07-Oct-2025 21:13:39 UTC] PHP Parse error:  syntax error, unexpected token ">" in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/blog-detailed.php on line 149
+[08-Oct-2025 13:08:10 UTC] Contact form submitted - ID: 3, IP: 106.222.219.20, Email: official.citychief@gmail.com
+[08-Oct-2025 13:26:17 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:26:17 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:26:25 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:26:25 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:34:04 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:34:04 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:35:05 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:35:05 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:42:32 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:42:32 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:42:39 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:42:39 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:42:39 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:42:39 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:23 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:23 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:24 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:45 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:45 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:48 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 13:43:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resources.php on line 2
+[08-Oct-2025 14:04:57 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:04:57 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:05:49 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:05:49 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:06:39 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:06:39 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:07:22 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:07:22 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/resource-detail.php on line 2
+[08-Oct-2025 14:42:14 UTC] Download request received: Array
+(
+    [resource_id] => 3
+    [name] => Anjum
+    [email] => anjum@gmail.com
+    [phone] => 6232511955
+    [company] => 
+)
+
+[08-Oct-2025 14:42:14 UTC] Processing: Resource ID: 3, Name: Anjum, Email: anjum@gmail.com
+[08-Oct-2025 14:42:14 UTC] New download recorded for resource: 3 by anjum@gmail.com
+[08-Oct-2025 14:42:14 UTC] Download URL generated: /download.php?r=3&t=c3129c40dd4ecedaeadc9c814ee2f5a4
+[08-Oct-2025 14:42:15 UTC] Download request - Resource: 3, Token: c3129c40dd4ecedaeadc9c814ee2f5a4
+[08-Oct-2025 14:42:15 UTC] Attempting to download file: /home/e3422l5tn9cy/public_html/self.manasissotechy.in/uploads/resources/file_1759934039_7647.jpeg
+[08-Oct-2025 14:42:15 UTC] File downloaded successfully: file_1759934039_7647.jpeg
+[08-Oct-2025 18:06:44 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/old_contact.php(1): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[08-Oct-2025 18:06:45 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/old_contact.php(1): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[08-Oct-2025 18:06:46 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/contact.php(1): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[08-Oct-2025 18:06:52 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/index.php(2): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[08-Oct-2025 18:12:34 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getSiteSettings() in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php:3
+Stack trace:
+#0 /home/e3422l5tn9cy/public_html/self.manasissotechy.in/index.php(2): require_once()
+#1 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/includes/header.php on line 3
+[09-Oct-2025 06:51:05 UTC] Contact form submitted - ID: 4, IP: 110.224.173.79, Email: official.manasmishra@outlook.com
+[09-Oct-2025 14:07:39 UTC] PHP Fatal error:  Uncaught Error: Class "Database" not found in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/sitemap.php on line 5
+[11-Oct-2025 20:20:51 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:51 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:51 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:51 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:54 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:54 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:57 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:57 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:58 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:58 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:58 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:58 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:58 UTC] PHP Warning:  Undefined variable $db in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:20:58 UTC] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 5
+[11-Oct-2025 20:24:42 UTC] PHP Parse error:  Unmatched '}' in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 107
+[11-Oct-2025 20:25:59 UTC] PHP Parse error:  Unmatched '}' in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 103
+[11-Oct-2025 20:27:24 UTC] PHP Parse error:  Unmatched '}' in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 103
+[11-Oct-2025 20:32:03 UTC] PHP Parse error:  Unmatched '}' in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/edit.php on line 103
+[11-Oct-2025 20:42:51 UTC] PHP Parse error:  syntax error, unexpected token "endforeach", expecting end of file in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/services.php on line 36
+[11-Oct-2025 20:42:52 UTC] PHP Parse error:  syntax error, unexpected token "endforeach", expecting end of file in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/services.php on line 36
+[11-Oct-2025 20:48:57 UTC] PHP Parse error:  syntax error, unexpected token "endforeach", expecting end of file in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/services.php on line 36
+[11-Oct-2025 20:50:38 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/services.php on line 122
+[11-Oct-2025 20:52:44 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/services.php on line 122
+[13-Oct-2025 10:16:24 UTC] Contact form submitted - ID: 5, IP: 106.222.215.210, Email: RohitNarayan@gmail.com
+[24-Oct-2025 08:51:32 UTC] Contact form submitted - ID: 6, IP: 106.222.218.104, Email: businessconnect@brackoddproduction.com
+[30-Oct-2025 17:49:13 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php on line 2
+[30-Oct-2025 17:49:13 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php on line 2
+[30-Oct-2025 17:52:32 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php on line 2
+[30-Oct-2025 17:52:32 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php on line 2
+[30-Oct-2025 17:52:33 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php on line 2
+[30-Oct-2025 17:52:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php:2
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/book-call.php on line 2
+[30-Oct-2025 17:56:46 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 17:56:46 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 17:57:46 UTC] Download request received: Array
+(
+    [resource_id] => 1
+    [name] => helodni h
+    [email] => manas8teen@gmail.com
+    [phone] => 6232511955
+    [company] => Info@gmail.com
+)
+
+[30-Oct-2025 17:57:46 UTC] Processing: Resource ID: 1, Name: helodni h, Email: manas8teen@gmail.com
+[30-Oct-2025 17:57:46 UTC] File not found on server: /home/e3422l5tn9cy/public_html/self.manasissotechy.in/uploads/resources/TEST
+[30-Oct-2025 17:58:03 UTC] Download request received: Array
+(
+    [resource_id] => 3
+    [name] => Manas
+    [email] => manas8teen@gmail.com
+    [phone] => 6232511955
+    [company] => Info
+)
+
+[30-Oct-2025 17:58:03 UTC] Processing: Resource ID: 3, Name: Manas, Email: manas8teen@gmail.com
+[30-Oct-2025 17:58:03 UTC] New download recorded for resource: 3 by manas8teen@gmail.com
+[30-Oct-2025 17:58:03 UTC] Download URL generated: /download.php?r=3&t=631da17b3b4a7a166c3768d1fdc7a2ab
+[30-Oct-2025 17:58:04 UTC] Download request - Resource: 3, Token: 631da17b3b4a7a166c3768d1fdc7a2ab
+[30-Oct-2025 17:58:04 UTC] Attempting to download file: /home/e3422l5tn9cy/public_html/self.manasissotechy.in/uploads/resources/file_1759934039_7647.jpeg
+[30-Oct-2025 17:58:04 UTC] File downloaded successfully: file_1759934039_7647.jpeg
+[30-Oct-2025 17:58:53 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 17:58:53 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 18:04:46 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 18:04:46 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 18:04:53 UTC] PHP Warning:  require_once(includes/config.php): Failed to open stream: No such file or directory in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 18:04:53 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/config.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/razorpay-process.php on line 3
+[30-Oct-2025 18:06:14 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/config/config.php on line 2
+[30-Oct-2025 18:07:25 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/config/config.php on line 2
+[30-Oct-2025 18:10:19 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/config/config.php on line 2
+[30-Oct-2025 18:29:25 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/e3422l5tn9cy/public_html/self.manasissotechy.in/config/config.php on line 2
