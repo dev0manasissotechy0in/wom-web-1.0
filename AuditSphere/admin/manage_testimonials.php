@@ -1,6 +1,6 @@
 <?php
 require_once 'auth.php';
-require_once '../db_config.php';
+require_once '../config.php';
 
 $message = '';
 $edit_mode = false;

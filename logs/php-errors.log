@@ -12482,3 +12482,119 @@ SMTP Error: Could not authenticate.<br>
 [01-Dec-2025 16:13:10 Asia/Kolkata] PHP Warning:  Undefined array key "REMOTE_ADDR" in C:\xampp\htdocs\config\config.php on line 75
 [01-Dec-2025 16:13:10 Asia/Kolkata] PHP Warning:  Undefined array key "REQUEST_URI" in C:\xampp\htdocs\config\config.php on line 75
 [01-Dec-2025 16:13:54 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:02 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:02 Asia/Kolkata] Error [2]: Undefined array key "name" in C:\xampp\htdocs\admin\login.php on line 18
+[01-Dec-2025 16:36:02 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:02 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 22
+[01-Dec-2025 16:36:02 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 24
+[01-Dec-2025 16:36:02 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 30
+[01-Dec-2025 16:36:02 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 33
+[01-Dec-2025 16:36:02 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\dashboard.php on line 62
+[01-Dec-2025 16:36:03 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:06 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:06 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:06 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:06 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:07 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:07 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:07 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 16:36:07 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:43 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:43 Asia/Kolkata] Error [2]: Undefined array key "name" in C:\xampp\htdocs\admin\login.php on line 18
+[01-Dec-2025 19:20:43 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:44 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 22
+[01-Dec-2025 19:20:44 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 24
+[01-Dec-2025 19:20:44 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 30
+[01-Dec-2025 19:20:44 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 33
+[01-Dec-2025 19:20:44 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\dashboard.php on line 62
+[01-Dec-2025 19:20:45 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:45 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 22
+[01-Dec-2025 19:20:45 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 24
+[01-Dec-2025 19:20:45 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 30
+[01-Dec-2025 19:20:45 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 33
+[01-Dec-2025 19:20:45 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\dashboard.php on line 62
+[01-Dec-2025 19:20:53 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:55 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:55 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:55 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:55 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:55 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:56 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:56 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:57 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:57 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:59 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:59 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:59 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:59 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:20:59 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:03 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:03 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:03 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:03 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:06 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:06 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:11 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:11 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:11 Asia/Kolkata] Newsletter API call - Email: Manasissotechy@gmail.com
+[01-Dec-2025 19:21:11 Asia/Kolkata] [2025-12-01 19:21:11] Download request received from ::1: {"resource_id":"1","name":"Manas Mishra","email":"Manasissotechy@gmail.com","phone":"+916232511955","company":"Brackodd Production Pvt. Ltd."}
+[01-Dec-2025 19:21:11 Asia/Kolkata] [2025-12-01 19:21:11] Processing: Resource ID: 1, Name: Manas Mishra, Email: Manasissotechy@gmail.com, Phone: +916232511955, Company: Brackodd Production Pvt. Ltd.
+[01-Dec-2025 19:21:11 Asia/Kolkata] [2025-12-01 19:21:11] Resource found: 30 Day Social Media Content Calendar for SaaS (ID: 1)
+[01-Dec-2025 19:21:11 Asia/Kolkata] [2025-12-01 19:21:11] File exists: C:\xampp\htdocs/assets/images/uploads/resources/file_1763308665_3065.pdf (Size: 3606787 bytes)
+[01-Dec-2025 19:21:11 Asia/Kolkata] [2025-12-01 19:21:11] Paid resource - created download record ID: 6
+[01-Dec-2025 19:21:13 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:13 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:21:13 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:23:56 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:24:05 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:24 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:24 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:24 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:24 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:24 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:26 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:26 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:26 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:26 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:26 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:26 Asia/Kolkata] Error [8192]: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in C:\xampp\htdocs\service-detail.php on line 30
+[01-Dec-2025 19:25:26 Asia/Kolkata] Error [8192]: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in C:\xampp\htdocs\service-detail.php on line 36
+[01-Dec-2025 19:25:27 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:27 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:28 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:28 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:29 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:29 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:29 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:29 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:25:29 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:09 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:09 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:09 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:11 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:11 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:11 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:11 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:12 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:12 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:13 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:13 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:14 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:14 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:14 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:14 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:14 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:36 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:36 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 22
+[01-Dec-2025 19:29:36 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 24
+[01-Dec-2025 19:29:36 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 30
+[01-Dec-2025 19:29:36 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 33
+[01-Dec-2025 19:29:36 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\dashboard.php on line 62
+[01-Dec-2025 19:29:39 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:29:39 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:43:44 Asia/Kolkata] Newsletter API call - Email: N/A
+[01-Dec-2025 19:43:44 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 22
+[01-Dec-2025 19:43:44 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 24
+[01-Dec-2025 19:43:44 Asia/Kolkata] Error [8192]: substr(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 30
+[01-Dec-2025 19:43:44 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\includes\topbar.php on line 33
+[01-Dec-2025 19:43:44 Asia/Kolkata] Error [8192]: htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\admin\dashboard.php on line 62

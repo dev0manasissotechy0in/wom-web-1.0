@@ -1,285 +1,390 @@
-
 <?php
-include 'db_config.php';
-$settings = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM site_settings LIMIT 1"));
-$meta_title = $settings['meta_title'] ?: 'AuditSphere by Wall of Marketing';
-$meta_description = $settings['meta_description'] ?: 'Smart SEO audits for modern SaaS and websites.';
-$meta_keywords = $settings['meta_keywords'] ?: 'seo audit, auditsphere, wall of marketing';
-$meta_robots = $settings['meta_robots'] ?: 'index,follow';
-$canonical_url = $settings['canonical_url'] ?: 'https://auditsphere.wallofmarketing.co/';
+require_once 'config.php';
 
-// Fetch testimonials
-$testimonials = $conn->query("SELECT * FROM testimonials ORDER BY created_at DESC");
+// Fetch site settings
+$settings_query = mysqli_query($conn, "SELECT * FROM site_settings LIMIT 1");
+$settings = $settings_query ? mysqli_fetch_assoc($settings_query) : [];
+$meta_title = isset($settings['meta_title']) ? $settings['meta_title'] : 'AuditSphere - Smart SEO Audit Platform';
+$meta_description = isset($settings['meta_description']) ? $settings['meta_description'] : 'Advanced SEO auditing platform for modern websites and SaaS products.';
+$meta_keywords = isset($settings['meta_keywords']) ? $settings['meta_keywords'] : 'seo audit, website analysis, auditsphere';
 
-// Fetch gallery items
-$gallery_items = $conn->query("SELECT * FROM gallery ORDER BY created_at DESC");
+// Fetch features from admin database
+$features_result = mysqli_query($conn, "SELECT * FROM features ORDER BY display_order ASC");
+
+// Fetch testimonials from admin database
+$testimonials_result = mysqli_query($conn, "SELECT * FROM testimonials ORDER BY created_at DESC LIMIT 6");
+
+// Fetch gallery items from admin database
+$gallery_result = mysqli_query($conn, "SELECT * FROM gallery ORDER BY created_at DESC LIMIT 9");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><?php echo htmlspecialchars($meta_title); ?></title>
-<meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
-<meta name="keywords" content="<?php echo htmlspecialchars($meta_keywords); ?>">
-<meta name="robots" content="<?php echo htmlspecialchars($meta_robots); ?>">
-<link rel="canonical" href="<?php echo htmlspecialchars($canonical_url); ?>">
-
-<?php
-// Google Tag Manager (head) if GTM is set
-if (!empty($settings['gtm_container_id'])): ?>
-<script>
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','<?php echo $settings['gtm_container_id']; ?>');
-</script>
-<?php endif; ?>
-
-<?php
-// Google Analytics gtag.js (if used without GTM)
-if (!empty($settings['ga_measurement_id']) && empty($settings['gtm_container_id'])): ?>
-<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $settings['ga_measurement_id']; ?>"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '<?php echo $settings['ga_measurement_id']; ?>');
-</script>
-<?php endif; ?>
-
-<?php
-// Meta Pixel
-if (!empty($settings['meta_pixel_id'])): ?>
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src='https://connect.facebook.net/en_US/fbevents.js';
-s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script');
-fbq('init', '<?php echo $settings['meta_pixel_id']; ?>');
-fbq('track', 'PageView');
-</script>
-<noscript>
-    <img alt="fb" height="1" width="1" style="display:none"
-         src="https://www.facebook.com/tr?id=<?php echo $settings['meta_pixel_id']; ?>&ev=PageView&noscript=1"/>
-</noscript>
-<?php endif; ?>
-
-<?php
-// Custom head HTML
-if (!empty($settings['custom_head'])) {
-    echo $settings['custom_head'];
-}
-?>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Landing Page</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="footer-css.css">
-    <!-- <link rel="stylesheet" href="scroll.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="features/features_styles.css">
+    <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
+    <meta name="keywords" content="<?php echo htmlspecialchars($meta_keywords); ?>">
+    <title><?php echo htmlspecialchars($meta_title); ?></title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <?php
-// Google Tag Manager (body noscript)
-if (!empty($settings['gtm_container_id'])): ?>
-<noscript>
-<iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $settings['gtm_container_id']; ?>"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe>
-</noscript>
-<?php endif; ?>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>AuditSphere</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#demos">Demos</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="cta-btn">Get Started</button>
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-<?php
-// Custom body top
-if (!empty($settings['custom_body_top'])) {
-    echo $settings['custom_body_top'];
-}
-?>
+    <!-- Animated Background -->
+    <canvas id="animated-background"></canvas>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+            <div class="animated-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles"></i>
+                    <span>Smart SEO Analysis Platform</span>
+                </div>
+                <h1 class="hero-title">
+                    Elevate Your Website's
+                    <span class="gradient-text">Performance</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Comprehensive SEO audits, actionable insights, and real-time monitoring
+                    to help your website rank higher and perform better.
+                </p>
+                <div class="hero-cta">
+                    <button class="btn btn-primary" id="openSoftware">
+                        <span>Launch AuditSphere</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-play"></i>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Audits Performed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Monitoring</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Atmospheric Background -->
-    <div id="particles-container"></div>
-    <div id="floating-text-container"></div>
-
-    <!-- Main Content -->
-    <main class="content">
-        <!-- Hero Section with Animated Button -->
-        <!-- <section class="hero">
-            <h1 class="hero-title">Welcome to Our Platform</h1>
-            <button class="animated-btn" id="openSoftware">
-                <span>Launch Software</span>
-                <div class="btn-particles"></div>
-            </button>
-        </section> -->
-
-        <!-- Update Hero Section 3D-->
-<section class="hero perspective-wrapper">
-    <h1 class="hero-title float-3d">Welcome to Our Platform</h1>
-    <button class="animated-btn tilt-3d" id="openSoftware">
-        <span class="tilt-3d-inner">Launch Software</span>
-    </button>
-</section>
-
-<!-- Add 3D Background Text -->
-<div class="text-3d-scroll">AUDITSPHERE</div>
-
-<!-- Features Section -->
-<!-- <section class="features-section">
-    <div class="container">
-        <h2 class="section-title animation fade-in-up">Core Features</h2>
-        <p class="section-subtitle animation fade-in-up">Everything you need to succeed</p>
-        
-        <div class="features-grid">
-            <?php 
-            $features_query = mysqli_query($conn, "SELECT * FROM features WHERE is_active = 1 ORDER BY display_order ASC");
-            $delay = 0;
-            while($feature = mysqli_fetch_assoc($features_query)): 
-            ?>
-                <div class="feature-card animation" style="animation-delay: <?php echo $delay; ?>s">
-                    <div class="feature-icon-wrapper">
-                        <div class="feature-icon" style="color: <?php echo $feature['icon_color']; ?>">
-                            <?php echo $feature['icon']; ?>
-                        </div>
-                        <div class="feature-icon-bg" style="background: <?php echo $feature['icon_color']; ?>20"></div>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Features</span>
+                <h2 class="section-title">Everything You Need to <span class="gradient-text">Succeed</span></h2>
+                <p class="section-subtitle">Powerful tools designed to give you complete control over your website's SEO performance</p>
+            </div>
+            
+            <div class="features-grid">
+                <?php 
+                $icon_classes = ['fa-chart-line', 'fa-search', 'fa-gauge-high', 'fa-shield-halved', 'fa-mobile-screen', 'fa-clock'];
+                $colors = ['#667eea', '#f093fb', '#4facfe', '#43e97b', '#fa709a', '#feca57'];
+                $index = 0;
+                
+                if ($features_result && mysqli_num_rows($features_result) > 0):
+                    while($feature = mysqli_fetch_assoc($features_result)): 
+                        $color = $colors[$index % count($colors)];
+                        $icon = $icon_classes[$index % count($icon_classes)];
+                ?>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, <?php echo $color; ?>22, <?php echo $color; ?>11);">
+                        <i class="fas <?php echo $icon; ?>" style="color: <?php echo $color; ?>;"></i>
                     </div>
                     <h3 class="feature-title"><?php echo htmlspecialchars($feature['title']); ?></h3>
                     <p class="feature-description"><?php echo htmlspecialchars($feature['description']); ?></p>
+                    <a href="#" class="feature-link">
+                        <span>Learn more</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
-            <?php 
-            $delay += 0.1;
-            endwhile; 
-            ?>
+                <?php 
+                    $index++;
+                    endwhile;
+                else:
+                    // Default features if none in database
+                    $default_features = [
+                        ['title' => 'SEO Analysis', 'desc' => 'Deep dive into your website\'s SEO performance with detailed reports'],
+                        ['title' => 'Keyword Tracking', 'desc' => 'Monitor your keyword rankings across all major search engines'],
+                        ['title' => 'Performance Metrics', 'desc' => 'Track page speed, Core Web Vitals, and loading performance'],
+                        ['title' => 'Security Audit', 'desc' => 'Identify security vulnerabilities and get recommendations'],
+                        ['title' => 'Mobile Optimization', 'desc' => 'Ensure your site performs perfectly on all mobile devices'],
+                        ['title' => 'Real-time Monitoring', 'desc' => '24/7 monitoring with instant alerts for any issues']
+                    ];
+                    foreach($default_features as $idx => $feat):
+                        $color = $colors[$idx % count($colors)];
+                        $icon = $icon_classes[$idx % count($icon_classes)];
+                ?>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, <?php echo $color; ?>22, <?php echo $color; ?>11);">
+                        <i class="fas <?php echo $icon; ?>" style="color: <?php echo $color; ?>;"></i>
+                    </div>
+                    <h3 class="feature-title"><?php echo $feat['title']; ?></h3>
+                    <p class="feature-description"><?php echo $feat['desc']; ?></p>
+                    <a href="#" class="feature-link">
+                        <span>Learn more</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <?php 
+                    endforeach;
+                endif;
+                ?>
+            </div>
         </div>
-    </div>
-</section> -->
-<?php // include 'Split-Screen-features.php'; ?>
+    </section>
 
-<?php include 'Tabbed_Features_Section.php'; ?>
-
-<?php // include 'features/Bento-Grid-features.php'; ?>
-
-        <!-- Gallery Section -->
-<div class="gallery-item card-3d tilt-3d">
-            <section class="gallery-section">
-            <h2>AuditSpeher Demos</h2>
+    <!-- Demos Gallery Section -->
+    <section id="demos" class="demos">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Gallery</span>
+                <h2 class="section-title">See AuditSphere in <span class="gradient-text">Action</span></h2>
+                <p class="section-subtitle">Explore screenshots and videos of our platform's powerful features</p>
+            </div>
+            
             <div class="gallery-grid">
-                <?php while($item = $gallery_items->fetch_assoc()): ?>
-                    <div class="gallery-item" data-type="<?php echo $item['file_type']; ?>">
+                <?php 
+                if ($gallery_result && mysqli_num_rows($gallery_result) > 0):
+                    while($item = mysqli_fetch_assoc($gallery_result)): 
+                ?>
+                <div class="gallery-item">
+                    <div class="gallery-image">
                         <?php if($item['file_type'] == 'image'): ?>
-                            <img src="<?php echo $item['file_path']; ?>" 
-                                 alt="<?php echo htmlspecialchars($item['title']); ?>" 
-                                 class="gallery-thumb">
+                            <img src="<?php echo htmlspecialchars($item['file_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>">
                         <?php else: ?>
-                            <img src="<?php echo $item['thumbnail']; ?>" 
-                                 alt="<?php echo htmlspecialchars($item['title']); ?>" 
-                                 class="gallery-thumb">
-                            <div class="play-icon">▶</div>
+                            <img src="<?php echo htmlspecialchars($item['thumbnail']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>">
+                            <div class="play-overlay">
+                                <i class="fas fa-play"></i>
+                            </div>
                         <?php endif; ?>
-                        <div class="gallery-overlay">
-                            <p><?php echo htmlspecialchars($item['title']); ?></p>
+                    </div>
+                    <div class="gallery-content">
+                        <h4><?php echo htmlspecialchars($item['title']); ?></h4>
+                        <?php if(!empty($item['description'])): ?>
+                        <p><?php echo htmlspecialchars($item['description']); ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php 
+                    endwhile;
+                else:
+                    // Placeholder gallery items
+                    for($i = 1; $i <= 6; $i++):
+                ?>
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <div class="gallery-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>Demo Screenshot <?php echo $i; ?></span>
                         </div>
                     </div>
-                <?php endwhile; ?>
+                    <div class="gallery-content">
+                        <h4>Feature Demo <?php echo $i; ?></h4>
+                        <p>Explore this powerful feature in action</p>
+                    </div>
+                </div>
+                <?php 
+                    endfor;
+                endif;
+                ?>
             </div>
-        </section>
-</div>
+        </div>
+    </section>
 
-
-        <!-- Testimonials Section -->
-<div class="testimonial-card card-3d tilt-3d">
-            <section class="testimonials-section">
-            <h2>What Our Users Say</h2>
-            <div class="testimonials-carousel">
-                <div class="testimonials-track">
-                    <?php while($testimonial = $testimonials->fetch_assoc()): ?>
-                        <div class="testimonial-card">
-                            <img src="<?php echo $testimonial['user_image']; ?>" 
-                                 alt="<?php echo htmlspecialchars($testimonial['user_name']); ?>" 
-                                 class="user-avatar">
-                            <div class="testimonial-content">
-                                <p class="feedback">"<?php echo htmlspecialchars($testimonial['feedback']); ?>"</p>
-                                <h4 class="user-name"><?php echo htmlspecialchars($testimonial['user_name']); ?></h4>
-                                <p class="user-role"><?php echo htmlspecialchars($testimonial['user_role']); ?></p>
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Testimonials</span>
+                <h2 class="section-title">Loved by <span class="gradient-text">Thousands</span></h2>
+                <p class="section-subtitle">See what our customers have to say about AuditSphere</p>
+            </div>
+            
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <?php 
+                if ($testimonials_result && mysqli_num_rows($testimonials_result) > 0):
+                    while($testimonial = mysqli_fetch_assoc($testimonials_result)): 
+                ?>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <?php 
+                        $rating = isset($testimonial['rating']) ? intval($testimonial['rating']) : 5;
+                        for($i = 0; $i < $rating; $i++): 
+                        ?>
+                        <i class="fas fa-star"></i>
+                        <?php endfor; ?>
+                    </div>
+                    <p class="testimonial-text">"<?php echo isset($testimonial['feedback']) ? htmlspecialchars($testimonial['feedback']) : 'Great service!'; ?>"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <?php if(isset($testimonial['user_image']) && !empty($testimonial['user_image'])): ?>
+                            <img src="<?php echo htmlspecialchars($testimonial['user_image']); ?>" alt="<?php echo isset($testimonial['user_name']) ? htmlspecialchars($testimonial['user_name']) : 'User'; ?>">
+                            <?php else: ?>
+                            <div class="avatar-placeholder">
+                                <?php echo isset($testimonial['user_name']) ? strtoupper(substr($testimonial['user_name'], 0, 1)) : 'U'; ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="author-info">
+                            <h5><?php echo isset($testimonial['user_name']) ? htmlspecialchars($testimonial['user_name']) : 'Anonymous'; ?></h5>
+                            <p><?php echo isset($testimonial['user_role']) ? htmlspecialchars($testimonial['user_role']) : 'Customer'; ?></p>
+                        </div>
+                    </div>
+                </div>
+                <?php 
+                    endwhile;
+                else:
+                    // Default testimonials
+                    $default_testimonials = [
+                        ['name' => 'Sarah Johnson', 'position' => 'Marketing Director', 'text' => 'AuditSphere transformed our SEO strategy. The insights are invaluable!'],
+                        ['name' => 'Michael Chen', 'position' => 'CEO, TechStart', 'text' => 'Best SEO audit tool we\'ve ever used. Highly recommended!'],
+                        ['name' => 'Emily Rodriguez', 'position' => 'SEO Specialist', 'text' => 'The real-time monitoring feature has saved us countless hours.']
+                    ];
+                    foreach($default_testimonials as $test):
+                ?>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"<?php echo $test['text']; ?>"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <div class="avatar-placeholder">
+                                <?php echo strtoupper(substr($test['name'], 0, 1)); ?>
                             </div>
                         </div>
-                    <?php endwhile; ?>
+                        <div class="author-info">
+                            <h5><?php echo $test['name']; ?></h5>
+                            <p><?php echo $test['position']; ?></p>
+                        </div>
+                    </div>
+                </div>
+                <?php 
+                    endforeach;
+                endif;
+                ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your SEO?</h2>
+                <p>Join thousands of businesses already using AuditSphere</p>
+                <button class="btn btn-primary btn-large">
+                    <span>Get Started Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-line"></i>
+                        <span>AuditSphere</span>
+                    </div>
+                    <p>Smart SEO audits for modern SaaS and websites.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#demos">Demos</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Updates</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Terms</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                            <li><a href="#">Disclaimer</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </section>
-</div>
-    </main>
-
-    <!-- Modal for Gallery Fullscreen -->
-    <div id="gallery-modal" class="modal">
-        <span class="close">&times;</span>
-        <div class="modal-content" id="modal-content"></div>
-    </div>
-
-    <script src="script.js"></script>
-
-
-
-    <?php
-// Fetch tracking + SEO + footer config (single row table)
-$settings = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM site_settings LIMIT 1"));
-?>
-<footer class="site-footer">
-    <div class="footer-top">
-        <div class="footer-left">
-            <div class="footer-logo">
-                <img src="assets/img/wom-logo-light.svg" alt="Wall of Marketing">
-                <span>Wall of Marketing</span>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AuditSphere by Wall of Marketing. All rights reserved.</p>
+                <p>Made in India with <i class="fas fa-heart"></i></p>
             </div>
-            <p class="footer-tagline">Building powerful SaaS experiences with AuditSphere.</p>
         </div>
+    </footer>
 
-        <div class="footer-middle">
-            <h4>Legal</h4>
-            <ul>
-                <li><a href="/privacy-policy.php">Privacy Policy</a></li>
-                <li><a href="/terms-of-service.php">Terms of Service</a></li>
-                <li><a href="/cookie-policy.php">Cookie Policy</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-right">
-            <h4>Connect</h4>
-            <div class="footer-social">
-                <a href="https://twitter.com/yourhandle" target="_blank" aria-label="Twitter" class="social-btn twitter">
-                    <i class="fa fa-twitter"></i>
-                </a>
-                <a href="https://linkedin.com/company/yourcompany" target="_blank" aria-label="LinkedIn" class="social-btn linkedin">
-                    <i class="fa fa-linkedin"></i>
-                </a>
-                <a href="https://instagram.com/yourhandle" target="_blank" aria-label="Instagram" class="social-btn instagram">
-                    <i class="fa fa-instagram"></i>
-                </a>
-                <a href="https://youtube.com/@yourchannel" target="_blank" aria-label="YouTube" class="social-btn youtube">
-                    <i class="fa fa-youtube-play"></i>
-                </a>
-            </div>
-
-            <button class="footer-contact-btn" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth'});">
-                Contact Us
-            </button>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <span>© <?php echo date('Y'); ?> Wall of Marketing. All rights reserved.</span>
-        <span>Made in India with ♥</span>
-    </div>
-</footer>
-<?php
-if (!empty($settings['custom_body_bottom'])) {
-    echo $settings['custom_body_bottom'];
-}
-?>
-
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 require_once 'auth.php';
-require_once '../db_config.php';
+require_once '../config.php';
 
 $settings = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM site_settings LIMIT 1"));
 $message = '';

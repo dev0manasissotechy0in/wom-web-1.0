@@ -1,6 +1,6 @@
 <?php
 require_once 'auth.php';
-require_once '../db_config.php';
+require_once '../config.php';
 
 // Get counts
 $testimonials_count = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM testimonials"))['count'];

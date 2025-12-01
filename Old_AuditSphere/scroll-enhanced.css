@@ -1,0 +1,690 @@
+/* ============================================
+   AUDITSPHERE - ENHANCED 3D SCROLL ANIMATIONS
+   Smooth reveal with depth and perspective
+   ============================================ */
+
+/* ============================================
+   GLOBAL SCROLL SETUP
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS - 3D DEPTH
+   ============================================ */
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translate3d(0, 80px, -50px) rotateX(-5deg);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+}
+
+/* Staggered reveal for multiple elements */
+.scroll-reveal:nth-child(1) { transition-delay: 0s; }
+.scroll-reveal:nth-child(2) { transition-delay: 0.1s; }
+.scroll-reveal:nth-child(3) { transition-delay: 0.2s; }
+.scroll-reveal:nth-child(4) { transition-delay: 0.3s; }
+.scroll-reveal:nth-child(5) { transition-delay: 0.4s; }
+.scroll-reveal:nth-child(6) { transition-delay: 0.5s; }
+
+/* ============================================
+   HERO SECTION - ENHANCED 3D DEPTH
+   ============================================ */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    perspective: 1500px;
+    perspective-origin: center center;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.hero-title {
+    opacity: 0;
+    animation: heroFadeIn3D 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.3s;
+    transform-style: preserve-3d;
+}
+
+.animated-btn {
+    opacity: 0;
+    animation: heroFadeIn3D 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.7s;
+    transform-style: preserve-3d;
+}
+
+@keyframes heroFadeIn3D {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 60px, -80px) rotateX(-15deg) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+    }
+}
+
+/* ============================================
+   FEATURES SECTION - 3D CARD REVEAL
+   ============================================ */
+
+.feature-card {
+    opacity: 0;
+    transform: translate3d(0, 70px, -40px) rotateX(-12deg);
+    transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+.feature-card.in-view {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+}
+
+/* Enhanced staggered animation */
+.feature-card:nth-child(1) { transition-delay: 0s; }
+.feature-card:nth-child(2) { transition-delay: 0.12s; }
+.feature-card:nth-child(3) { transition-delay: 0.24s; }
+.feature-card:nth-child(4) { transition-delay: 0.36s; }
+.feature-card:nth-child(5) { transition-delay: 0.48s; }
+.feature-card:nth-child(6) { transition-delay: 0.6s; }
+.feature-card:nth-child(7) { transition-delay: 0.72s; }
+.feature-card:nth-child(8) { transition-delay: 0.84s; }
+
+/* Hover state with 3D depth */
+.feature-card:hover {
+    transform: translate3d(0, -10px, 40px) rotateX(5deg) rotateY(-3deg);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.4),
+        0 0 50px rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================
+   GALLERY: ENHANCED 3D COVERFLOW
+   ============================================ */
+
+.gallery-section {
+    padding: 120px 20px;
+    overflow: hidden;
+    perspective: 2000px;
+    perspective-origin: center center;
+}
+
+.gallery-carousel-3d {
+    perspective: 2000px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.gallery-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.gallery-item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 500px;
+    margin-left: -200px;
+    margin-top: -250px;
+    border-radius: 25px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(102, 126, 234, 0.2);
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.gallery-item img,
+.gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s;
+}
+
+/* Center position - active with enhanced 3D */
+.gallery-item[data-position="0"] {
+    transform: translate3d(0, 0, 120px) rotateY(0deg) scale(1.08);
+    z-index: 10;
+    opacity: 1;
+    filter: brightness(1.15) saturate(1.25);
+    box-shadow: 
+        0 50px 120px rgba(0, 0, 0, 0.7),
+        0 0 80px rgba(102, 126, 234, 0.5),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Left positions with depth layers */
+.gallery-item[data-position="-1"] {
+    transform: translate3d(-470px, 0, -20px) rotateY(48deg) scale(0.85);
+    z-index: 5;
+    opacity: 0.75;
+    filter: brightness(0.7) saturate(0.9);
+}
+
+.gallery-item[data-position="-2"] {
+    transform: translate3d(-720px, 0, -150px) rotateY(55deg) scale(0.7);
+    z-index: 3;
+    opacity: 0.5;
+    filter: brightness(0.5) saturate(0.8);
+}
+
+.gallery-item[data-position="-3"] {
+    transform: translate3d(-900px, 0, -280px) rotateY(60deg) scale(0.55);
+    z-index: 2;
+    opacity: 0.3;
+    filter: brightness(0.4) saturate(0.7);
+}
+
+/* Right positions with depth layers */
+.gallery-item[data-position="1"] {
+    transform: translate3d(470px, 0, -20px) rotateY(-48deg) scale(0.85);
+    z-index: 5;
+    opacity: 0.75;
+    filter: brightness(0.7) saturate(0.9);
+}
+
+.gallery-item[data-position="2"] {
+    transform: translate3d(720px, 0, -150px) rotateY(-55deg) scale(0.7);
+    z-index: 3;
+    opacity: 0.5;
+    filter: brightness(0.5) saturate(0.8);
+}
+
+.gallery-item[data-position="3"] {
+    transform: translate3d(900px, 0, -280px) rotateY(-60deg) scale(0.55);
+    z-index: 2;
+    opacity: 0.3;
+    filter: brightness(0.4) saturate(0.7);
+}
+
+/* Hide far items for performance */
+.gallery-item[data-position="-4"],
+.gallery-item[data-position="-5"],
+.gallery-item[data-position="-6"],
+.gallery-item[data-position="4"],
+.gallery-item[data-position="5"],
+.gallery-item[data-position="6"] {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(-1200px, 0, -500px) scale(0.3);
+}
+
+/* Enhanced hover effect for active item */
+.gallery-item[data-position="0"]:hover {
+    transform: translate3d(0, -25px, 150px) rotateY(0deg) scale(1.12);
+    box-shadow: 
+        0 60px 140px rgba(0, 0, 0, 0.8),
+        0 0 100px rgba(102, 126, 234, 0.7);
+}
+
+.gallery-item[data-position="0"]:hover img,
+.gallery-item[data-position="0"]:hover video {
+    transform: scale(1.05);
+}
+
+/* Gallery Navigation - Enhanced */
+.gallery-nav {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 70px;
+    perspective: 1000px;
+}
+
+.gallery-nav-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 26px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.gallery-nav-btn:hover {
+    background: rgba(102, 126, 234, 0.4);
+    border-color: rgba(102, 126, 234, 0.7);
+    transform: translateZ(20px) scale(1.15);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+}
+
+.gallery-nav-btn:active {
+    transform: translateZ(10px) scale(1.05);
+}
+
+.gallery-counter {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 19px;
+    font-weight: 600;
+    min-width: 90px;
+    text-align: center;
+}
+
+/* ============================================
+   TESTIMONIALS: ENHANCED 3D STACKING
+   ============================================ */
+
+.testimonials-section {
+    padding: 120px 20px;
+    min-height: 100vh;
+    position: relative;
+    perspective: 1800px;
+}
+
+.testimonials-stack-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    padding-bottom: 650px;
+    transform-style: preserve-3d;
+}
+
+.testimonial-card {
+    position: sticky;
+    top: 140px;
+    margin-bottom: 40px;
+    transform-style: preserve-3d;
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.testimonial-card-inner {
+    background: rgba(30, 35, 60, 0.85);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 40px;
+    padding: 65px;
+    min-height: 380px;
+    box-shadow: 
+        0 45px 110px rgba(0, 0, 0, 0.65),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* Enhanced Z-index for depth */
+.testimonial-card:nth-child(1) { z-index: 10; }
+.testimonial-card:nth-child(2) { z-index: 9; }
+.testimonial-card:nth-child(3) { z-index: 8; }
+.testimonial-card:nth-child(4) { z-index: 7; }
+.testimonial-card:nth-child(5) { z-index: 6; }
+.testimonial-card:nth-child(6) { z-index: 5; }
+
+/* Default state - active card */
+.testimonial-card .testimonial-card-inner {
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0) rotateX(0deg);
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* Enhanced stacked states with 3D depth */
+.testimonial-card.stacked:nth-child(1) .testimonial-card-inner {
+    transform: scale3d(0.96, 0.96, 1) translate3d(0, -30px, -40px) rotateX(3deg);
+    opacity: 0.92;
+    filter: blur(1px);
+    box-shadow: 
+        0 35px 90px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.testimonial-card.stacked:nth-child(2) .testimonial-card-inner {
+    transform: scale3d(0.92, 0.92, 1) translate3d(0, -55px, -80px) rotateX(5deg);
+    opacity: 0.75;
+    filter: blur(2.5px);
+    box-shadow: 
+        0 30px 70px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.testimonial-card.stacked:nth-child(3) .testimonial-card-inner {
+    transform: scale3d(0.88, 0.88, 1) translate3d(0, -80px, -120px) rotateX(7deg);
+    opacity: 0.6;
+    filter: blur(4px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.testimonial-card.stacked:nth-child(4) .testimonial-card-inner {
+    transform: scale3d(0.84, 0.84, 1) translate3d(0, -105px, -160px) rotateX(9deg);
+    opacity: 0.5;
+    filter: blur(5px);
+}
+
+.testimonial-card.stacked:nth-child(5) .testimonial-card-inner {
+    transform: scale3d(0.80, 0.80, 1) translate3d(0, -130px, -200px) rotateX(11deg);
+    opacity: 0.4;
+    filter: blur(6px);
+}
+
+/* Testimonial header with enhanced spacing */
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    margin-bottom: 35px;
+}
+
+.user-avatar {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(102, 126, 234, 0.7);
+    box-shadow: 
+        0 12px 35px rgba(102, 126, 234, 0.5),
+        0 0 25px rgba(102, 126, 234, 0.4);
+}
+
+.user-info h4 {
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.user-role {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.1rem;
+}
+
+.feedback {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 2;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 28px;
+}
+
+.rating {
+    display: flex;
+    gap: 10px;
+    font-size: 26px;
+    color: #ffbd2e;
+    text-shadow: 0 0 15px rgba(255, 189, 46, 0.6);
+}
+
+/* ============================================
+   PARALLAX BACKGROUND LAYERS
+   ============================================ */
+
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    perspective: 2000px;
+}
+
+.parallax-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+.parallax-layer-1 {
+    transform: translateZ(-100px) scale(1.05);
+}
+
+.parallax-layer-2 {
+    transform: translateZ(-200px) scale(1.1);
+}
+
+.parallax-layer-3 {
+    transform: translateZ(-300px) scale(1.15);
+}
+
+/* ============================================
+   SECTION FADE IN ON SCROLL - ENHANCED
+   ============================================ */
+
+section {
+    opacity: 0;
+    transform: translate3d(0, 60px, -40px) rotateX(-5deg);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+}
+
+/* ============================================
+   RESPONSIVE - TABLET
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .gallery-item {
+        width: 350px;
+        height: 450px;
+        margin-left: -175px;
+        margin-top: -225px;
+    }
+    
+    .gallery-item[data-position="0"] {
+        transform: translate3d(0, 0, 80px) scale(1.05);
+    }
+    
+    .gallery-item[data-position="-1"],
+    .gallery-item[data-position="1"] {
+        transform: translate3d(-400px, 0, -30px) rotateY(40deg) scale(0.8);
+    }
+    
+    .gallery-item[data-position="-2"],
+    .gallery-item[data-position="2"] {
+        transform: translate3d(-600px, 0, -120px) rotateY(48deg) scale(0.65);
+    }
+    
+    .testimonial-card-inner {
+        padding: 50px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Gallery Mobile Optimization */
+    .gallery-carousel-3d {
+        height: 480px;
+    }
+    
+    .gallery-item {
+        width: 300px;
+        height: 380px;
+        margin-left: -150px;
+        margin-top: -190px;
+    }
+    
+    .gallery-item[data-position="0"] {
+        transform: translate3d(0, 0, 50px) scale(1);
+        box-shadow: 
+            0 30px 60px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(102, 126, 234, 0.3);
+    }
+    
+    .gallery-item[data-position="-1"],
+    .gallery-item[data-position="1"] {
+        transform: translate3d(-330px, 0, -50px) rotateY(35deg) scale(0.75);
+        opacity: 0.6;
+    }
+    
+    .gallery-item[data-position="-2"],
+    .gallery-item[data-position="2"],
+    .gallery-item[data-position="-3"],
+    .gallery-item[data-position="3"] {
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    .gallery-nav {
+        margin-top: 50px;
+        gap: 25px;
+    }
+    
+    .gallery-nav-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+    
+    /* Testimonials Mobile */
+    .testimonials-section {
+        padding: 100px 18px;
+    }
+    
+    .testimonials-stack-container {
+        padding-bottom: 450px;
+    }
+    
+    .testimonial-card {
+        top: 120px;
+        margin-bottom: 28px;
+    }
+    
+    .testimonial-card-inner {
+        padding: 38px;
+        min-height: 320px;
+        border-radius: 30px;
+    }
+    
+    .user-avatar {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .user-info h4 {
+        font-size: 1.25rem;
+    }
+    
+    .feedback {
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+    
+    .rating {
+        font-size: 22px;
+    }
+    
+    /* Simplified stacking on mobile */
+    .testimonial-card.stacked:nth-child(1) .testimonial-card-inner {
+        transform: scale3d(0.97, 0.97, 1) translate3d(0, -20px, -20px) rotateX(2deg);
+    }
+    
+    .testimonial-card.stacked:nth-child(2) .testimonial-card-inner {
+        transform: scale3d(0.94, 0.94, 1) translate3d(0, -40px, -40px) rotateX(3deg);
+    }
+    
+    .testimonial-card.stacked:nth-child(3) .testimonial-card-inner {
+        transform: scale3d(0.91, 0.91, 1) translate3d(0, -60px, -60px) rotateX(4deg);
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY - REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    /* Disable 3D transforms for reduced motion */
+    .gallery-item,
+    .testimonial-card,
+    .feature-card {
+        transform: none !important;
+    }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+.gallery-item,
+.testimonial-card,
+.feature-card,
+.gallery-nav-btn {
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* GPU acceleration for containers */
+.gallery-carousel-3d,
+.testimonials-stack-container,
+.gallery-track {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: no-preference) {
+    .gallery-item,
+    .testimonial-card-inner {
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}

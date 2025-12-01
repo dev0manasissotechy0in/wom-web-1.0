@@ -1,0 +1,41 @@
+/* Emergency visibility fix */
+.hero {
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.content {
+    position: relative !important;
+    z-index: 5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.hero-title {
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: #fff !important;
+}
+
+.animated-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.features-section,
+.gallery-section,
+.testimonials-section {
+    position: relative !important;
+    z-index: 5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Make sure background doesn't cover content */
+#particles-container,
+#radiation-container,
+#floating-text-container {
+    z-index: -1 !important;
+}

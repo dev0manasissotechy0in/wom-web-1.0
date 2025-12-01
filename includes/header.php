@@ -166,13 +166,12 @@ $base_url = $protocol . "://" . $_SERVER['HTTP_HOST'];
             <!-- Logo -->
             <div class="logo">
                 <a href="/">
-                    <?php if(!empty($settings['site_logo'])): ?>
-                        <img src="assets/images/Logo.png" 
-                             alt="<?php echo SITE_NAME; ?>" 
-                             class="logo-img"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <?php endif; ?>
-                    <span style="<?php echo !empty($settings['site_logo']) ? 'display:none;' : ''; ?> font-size:24px; font-weight:700; color:var(--primary-color);">
+                    <img src="/assets/images/Logo.png" 
+                         alt="<?php echo SITE_NAME; ?>" 
+                         class="logo-img"
+                         style="height: 50px; width: auto;"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                    <span style="display:none; font-size:24px; font-weight:700; color:var(--primary-color);">
                         <?php echo SITE_NAME; ?>
                     </span>
                 </a>
