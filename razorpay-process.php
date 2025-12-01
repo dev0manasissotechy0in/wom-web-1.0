@@ -1,36 +1,74 @@
 <?php
-// Connect to config and database
+// Unified Razorpay Payment Processing
+// Works for both Appointment Bookings and Paid Resources
+
 require_once __DIR__ . '/config/config.php';
 
-// Check if booking ID is provided
-if (!isset($_GET['booking_id']) || empty($_GET['booking_id'])) {
-    die("Invalid booking ID");
+// Validate parameters
+$payment_type = $_GET['type'] ?? ''; // 'booking' or 'resource'
+$item_id = (int)($_GET['id'] ?? 0);
+
+if (!in_array($payment_type, ['booking', 'resource']) || empty($item_id)) {
+    die("Invalid payment request");
 }
 
-$booking_id = (int)$_GET['booking_id'];
-
 try {
-    // Fetch booking details
-    $stmt = $db->prepare("SELECT * FROM book_call WHERE id = ?");
-    $stmt->execute([$booking_id]);
-    $booking = $stmt->fetch();
-    
-    if (!$booking) {
-        die("Booking not found");
+    // Fetch payment details based on type
+    if ($payment_type === 'booking') {
+        $stmt = $db->prepare("SELECT * FROM book_call WHERE id = ?");
+        $stmt->execute([$item_id]);
+        $item = $stmt->fetch();
+        
+        if (!$item) {
+            die("Booking not found");
+        }
+        
+        // Check expiry
+        if (strtotime($item['expiry_time']) < time()) {
+            die("This booking has expired. Please create a new booking.");
+        }
+        
+        // Check if already paid
+        if ($item['payment_status'] === 'completed') {
+            header("Location: /thank-you.php?type=booking&id=" . $item_id);
+            exit();
+        }
+        
+        $customer_name = $item['name'];
+        $customer_email = $item['email'];
+        $customer_phone = $item['phone'];
+        $amount = $item['amount'];
+        $description = "Consultation Booking #" . $item_id;
+        
+    } else if ($payment_type === 'resource') {
+        // Fetch resource download record
+        $stmt = $db->prepare("
+            SELECT rd.*, r.title, r.price 
+            FROM resource_downloads rd 
+            JOIN resources r ON rd.resource_id = r.id 
+            WHERE rd.id = ?
+        ");
+        $stmt->execute([$item_id]);
+        $item = $stmt->fetch();
+        
+        if (!$item) {
+            die("Resource download not found");
+        }
+        
+        // Check if already paid
+        if ($item['payment_status'] === 'completed') {
+            header("Location: /download.php?r=" . $item['resource_id']);
+            exit();
+        }
+        
+        $customer_name = $item['name'];
+        $customer_email = $item['email'];
+        $customer_phone = $item['phone'] ?? '';
+        $amount = $item['price'];
+        $description = "Resource: " . $item['title'];
     }
     
-    // Check if booking has expired
-    if (strtotime($booking['expiry_time']) < time()) {
-        die("This booking has expired. Please create a new booking.");
-    }
-    
-    // Check if already paid
-    if ($booking['payment_status'] === 'completed') {
-        header("Location: /thank-you.php?booking_id=" . $booking_id);
-        exit();
-    }
-    
-    // Razorpay credentials (Add these to your config.php)
+    // Razorpay credentials
     $razorpay_key_id = RAZORPAY_KEY_ID ?? 'your_razorpay_key_id';
     $razorpay_key_secret = RAZORPAY_KEY_SECRET ?? 'your_razorpay_key_secret';
     
@@ -54,7 +92,7 @@ try {
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -82,19 +120,31 @@ try {
             margin-bottom: 10px;
         }
         
-        .booking-info {
+        .payment-type-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            background: #000;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .item-info {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
         }
         
-        .booking-info p {
+        .item-info p {
             margin: 10px 0;
             color: #555;
         }
         
-        .booking-info strong {
+        .item-info strong {
             color: #333;
         }
         
@@ -105,13 +155,13 @@ try {
         
         .amount-display h2 {
             font-size: 48px;
-            color: #0066FF;
+            color: #000000;
         }
         
         .pay-button {
             width: 100%;
             padding: 18px;
-            background: #0066FF;
+            background: #000000;
             color: white;
             border: none;
             border-radius: 8px;
@@ -122,7 +172,7 @@ try {
         }
         
         .pay-button:hover {
-            background: #0052cc;
+            background: #17181a;
         }
         
         .secure-badge {
@@ -131,31 +181,27 @@ try {
             color: #888;
             font-size: 14px;
         }
-        
-        .secure-badge svg {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
     </style>
 </head>
 <body>
     <div class="payment-container">
         <div class="payment-header">
+            <span class="payment-type-badge"><?php echo ucfirst($payment_type); ?></span>
             <h1>Complete Your Payment</h1>
-            <p>Booking ID: #<?php echo $booking_id; ?></p>
+            <p><?php echo $description; ?></p>
         </div>
         
-        <div class="booking-info">
-            <p><strong>Name:</strong> <?php echo htmlspecialchars($booking['name']); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($booking['email']); ?></p>
-            <p><strong>Phone:</strong> <?php echo htmlspecialchars($booking['phone']); ?></p>
+        <div class="item-info">
+            <p><strong>Name:</strong> <?php echo htmlspecialchars($customer_name); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($customer_email); ?></p>
+            <?php if ($customer_phone): ?>
+            <p><strong>Phone:</strong> <?php echo htmlspecialchars($customer_phone); ?></p>
+            <?php endif; ?>
         </div>
         
         <div class="amount-display">
-            <h2>₹<?php echo number_format($booking['amount'], 2); ?></h2>
-            <p>Consultation Fee</p>
+            <h2>₹<?php echo number_format($amount, 2); ?></h2>
+            <p><?php echo $payment_type === 'booking' ? 'Consultation Fee' : 'Resource Price'; ?></p>
         </div>
         
         <button id="rzp-button" class="pay-button">Pay with Razorpay</button>
@@ -169,22 +215,21 @@ try {
     <script>
         const options = {
             "key": "<?php echo $razorpay_key_id; ?>",
-            "amount": "<?php echo $booking['amount'] * 100; ?>", // Amount in paise
+            "amount": "<?php echo $amount * 100; ?>", // Amount in paise
             "currency": "INR",
             "name": "<?php echo htmlspecialchars(SITE_NAME); ?>",
-            "description": "Consultation Booking #<?php echo $booking_id; ?>",
-            "order_id": "", // You can generate order_id via Razorpay API
+            "description": "<?php echo htmlspecialchars($description); ?>",
             "handler": function (response) {
-                // Payment successful
-                window.location.href = `/razorpay-success.php?booking_id=<?php echo $booking_id; ?>&payment_id=` + response.razorpay_payment_id;
+                // Payment successful - redirect to success page
+                window.location.href = `/razorpay-success.php?type=<?php echo $payment_type; ?>&id=<?php echo $item_id; ?>&payment_id=` + response.razorpay_payment_id;
             },
             "prefill": {
-                "name": "<?php echo htmlspecialchars($booking['name']); ?>",
-                "email": "<?php echo htmlspecialchars($booking['email']); ?>",
-                "contact": "<?php echo htmlspecialchars($booking['phone']); ?>"
+                "name": "<?php echo htmlspecialchars($customer_name); ?>",
+                "email": "<?php echo htmlspecialchars($customer_email); ?>",
+                "contact": "<?php echo htmlspecialchars($customer_phone); ?>"
             },
             "theme": {
-                "color": "#0066FF"
+                "color": "#000000"
             },
             "modal": {
                 "ondismiss": function() {

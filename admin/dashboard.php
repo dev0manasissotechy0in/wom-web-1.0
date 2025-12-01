@@ -1,11 +1,10 @@
 <?php
-require_once '../config/config.php';
+// Start by checking authentication
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/config.php';
 
-// Check if logged in
-if(!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: login.php');
-    exit();
-}
+// Page title for header
+$page_title = 'Dashboard';
 
 // Get statistics
 $stmt = $db->query("SELECT COUNT(*) as total FROM blogs WHERE status = 'published'");
@@ -105,7 +104,14 @@ $recent_inquiries = $db->query("SELECT * FROM contact_inquiries ORDER BY created
                     </div>
                 </div>
             </div>
-            
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>Analytics</h3>
+                        <a href="analytics.php" class="btn-small">View All</a>
+                    </div>
+                </div>
+            </div>
             <!-- Recent Content -->
             <div class="content-grid">
                 <!-- Recent Blogs -->

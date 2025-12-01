@@ -25,6 +25,9 @@ try {
     $name = trim($_POST['name'] ?? 'Anonymous');
     $newsletter = trim($_POST['newsletter'] ?? 'main');
     
+    // Log the API call with email
+    error_log("Newsletter API call - Email: " . ($email ?: 'N/A'));
+    
     // Validate email
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);

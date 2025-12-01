@@ -1,0 +1,7 @@
+# Deny all access to archive folder
+# These are old/unused files that should not be web-accessible
+
+<FilesMatch ".*">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

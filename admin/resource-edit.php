@@ -1,13 +1,10 @@
 <?php
-session_start();
+require_once '../config/config.php';
 
-if (!isset($_SESSION['admin_logged_in'])) {
-    header('Location: /admin/login.php');
-    exit;
+if(!isset($_SESSION['admin_logged_in'])) {
+    header('Location: login.php');
+    exit();
 }
-
-// Load config and database connection
-require_once __DIR__ . '/../config/config.php';
 
 // Get resource ID
 $id = (int)($_GET['id'] ?? 0);
@@ -52,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     try {
-        $uploadDir = '../uploads/resources/';
+        $uploadDir = '../assets/images/uploads/resources/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -116,24 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Resource - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
-        }
-
-        .admin-header {
-            background: #000;
-            color: white;
-            padding: 15px 30px;
-        }
-
         .container {
             max-width: 1000px;
             margin: 30px auto;
@@ -250,12 +231,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
-    <div class="admin-header">
-        <h1><i class="fas fa-shield-alt"></i> Admin Panel - Edit Resource</h1>
-    </div>
-
-    <div class="container">
-        <a href="resources.php" class="back-link"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+    <?php include 'includes/sidebar.php'; ?>
+    
+    <div class="main-content">
+        <?php include 'includes/topbar.php'; ?>
+        
+        <div class="content">
+            <div class="container">
+                <a href="resources.php" class="back-link"><i class="fas fa-arrow-left"></i> Back to Resources</a>
         
         <?php if (isset($error)): ?>
             <div class="alert"><?php echo $error; ?></div>
@@ -326,7 +309,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="current-file">
                             <i class="fas fa-image"></i> Current: <?php echo htmlspecialchars($resource['image']); ?>
                         </div>
-                        <img src="../uploads/resources/<?php echo htmlspecialchars($resource['image']); ?>" class="file-preview" alt="Current">
+                        <img src="../assets/images/uploads/resources/<?php echo htmlspecialchars($resource['image']); ?>" class="file-preview" alt="Current">
                     <?php endif; ?>
                     <small style="color:#666;">Leave empty to keep current image</small>
                 </div>
@@ -369,6 +352,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="resources.php" class="btn-cancel">Cancel</a>
             </div>
         </form>
+            </div>
+        </div>
     </div>
 
     <script>

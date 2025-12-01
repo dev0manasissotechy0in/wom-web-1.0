@@ -21,10 +21,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $challenge = $_POST['challenge']; // Allow HTML
     $solution = $_POST['solution'];
     $results = $_POST['results'];
-    $technologies_used = sanitize($_POST['technologies_used']);
-    $project_duration = sanitize($_POST['project_duration']);
-    $team_size = sanitize($_POST['team_size']);
-    $budget_range = sanitize($_POST['budget_range']);
+    $technologies = sanitize($_POST['technologies_used']);
+    $duration = sanitize($_POST['project_duration']);
+    $services_provided = sanitize($_POST['team_size']);
+    $budget = sanitize($_POST['budget_range']);
     $testimonial = sanitize($_POST['testimonial']);
     $testimonial_author = sanitize($_POST['testimonial_author']);
     $testimonial_position = sanitize($_POST['testimonial_position']);
@@ -62,19 +62,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $stmt = $db->prepare("INSERT INTO case_studies (
                 title, slug, client_name, industry, featured_image, banner_image, excerpt, 
-                challenge, solution, results, technologies_used, project_duration, team_size, 
-                budget_range, testimonial, testimonial_author, testimonial_position, key_results, 
+                challenge, solution, results, technologies, duration, services_provided, 
+                budget, testimonial, testimonial_author, testimonial_position, key_results, 
                 meta_title, meta_description, meta_keywords, status, featured, display_order
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
-            $stmt->execute([
-                $title, $slug, $client_name, $industry, $featured_image, $banner_image, $excerpt,
-                $challenge, $solution, $results, $technologies_used, $project_duration, $team_size,
-                $budget_range, $testimonial, $testimonial_author, $testimonial_position, $key_results_json,
-                $meta_title, $meta_description, $meta_keywords, $status, $featured, $display_order
-            ]);
-            
-            header('Location: case-studies.php?msg=added');
+        $stmt->execute([
+            $title, $slug, $client_name, $industry, $featured_image, $banner_image, $excerpt,
+            $challenge, $solution, $results, $technologies, $duration, $services_provided,
+            $budget, $testimonial, $testimonial_author, $testimonial_position, $key_results_json,
+            $meta_title, $meta_description, $meta_keywords, $status, $featured, $display_order
+        ]);            header('Location: case-studies.php?msg=added');
             exit();
         } catch(Exception $e) {
             $errors[] = 'Database error: ' . $e->getMessage();
@@ -89,8 +87,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Case Study - Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/admin.css">
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
     <?php include 'includes/sidebar.php'; ?>
@@ -203,17 +200,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card-body">
                         <div class="form-group">
                             <label>The Challenge</label>
-                            <textarea name="challenge" class="tinymce"><?php echo $_POST['challenge'] ?? ''; ?></textarea>
+                            <textarea name="challenge" class="editor-content"><?php echo $_POST['challenge'] ?? ''; ?></textarea>
                         </div>
                         
                         <div class="form-group">
                             <label>Our Solution</label>
-                            <textarea name="solution" class="tinymce"><?php echo $_POST['solution'] ?? ''; ?></textarea>
+                            <textarea name="solution" class="editor-content"><?php echo $_POST['solution'] ?? ''; ?></textarea>
                         </div>
                         
                         <div class="form-group">
                             <label>The Results</label>
-                            <textarea name="results" class="tinymce"><?php echo $_POST['results'] ?? ''; ?></textarea>
+                            <textarea name="results" class="editor-content"><?php echo $_POST['results'] ?? ''; ?></textarea>
                         </div>
                         
                         <div class="form-group">
@@ -371,15 +368,36 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
     
+    <!-- CKEditor for rich text editing -->
+    <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
     <script>
-        // Initialize TinyMCE
-        tinymce.init({
-            selector: '.tinymce',
-            height: 400,
-            menubar: false,
-            plugins: 'lists link image code',
-            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-            content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; }'
+        // Initialize CKEditor for all editor-content textareas
+        window.addEventListener('load', function() {
+            if (typeof CKEDITOR !== 'undefined') {
+                document.querySelectorAll('.editor-content').forEach(function(textarea) {
+                    CKEDITOR.replace(textarea.id || textarea.name, {
+                height: 400,
+                extraPlugins: 'embed,image2,codesnippet',
+                removePlugins: 'elementspath',
+                resize_enabled: true,
+                toolbar: [
+                    { name: 'document', items: ['Source', '-', 'Preview'] },
+                    { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo'] },
+                    '/',
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'] },
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+                    { name: 'links', items: ['Link', 'Unlink'] },
+                    { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+                    '/',
+                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] },
+                    { name: 'tools', items: ['Maximize'] }
+                ]
+                });
+            });
+            } else {
+                console.error('CKEditor failed to load');
+            }
         });
         
         // Generate slug from title

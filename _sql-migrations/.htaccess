@@ -1,0 +1,7 @@
+# Deny all access to SQL files
+# Database files should never be web-accessible
+
+<FilesMatch ".*">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

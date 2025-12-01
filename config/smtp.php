@@ -2,6 +2,7 @@
 /**
  * SMTP Email Configuration
  * Using PHPMailer for reliable email delivery
+ * Supports database-driven SMTP settings with fallback to constants
  */
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -12,19 +13,229 @@ use PHPMailer\PHPMailer\Exception;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
- * SMTP Configuration Settings
- * Update these with your actual SMTP credentials
+ * Get SMTP Settings from Database or Constants
+ * Used for newsletters, contact forms, and general emails
+ * @return array SMTP configuration array
  */
-define('SMTP_HOST', 'smtp.gmail.com');              // Gmail SMTP server (or your provider)
-define('SMTP_PORT', 587);                            // TLS port (465 for SSL)
-define('SMTP_SECURE', 'ssl');                        // 'tls' or 'ssl'
-define('SMTP_USERNAME', 'support@manasissotechy.in');    // Your email
-define('SMTP_PASSWORD', '!q[9Ua4EY.hk');        // Your app password
-define('SMTP_FROM_EMAIL', 'newsbox@wallofmarketing.co');  // From email
-define('SMTP_FROM_NAME', 'Wall of Marketing');   // From name
+function getSMTPSettings() {
+    global $db; // Access global $db variable
+    
+    // Try to load from database first (no caching for fresh settings)
+    try {
+        if (!isset($db)) {
+            require_once __DIR__ . '/config.php';
+        }
+        
+        if (isset($db)) {
+            $stmt = $db->query("SELECT * FROM smtp_settings WHERE is_active = 1 ORDER BY id DESC LIMIT 1");
+            $settings = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($settings) {
+                return [
+                    'host' => $settings['smtp_host'],
+                    'port' => (int)$settings['smtp_port'],
+                    'username' => $settings['smtp_username'],
+                    'password' => $settings['smtp_password'],
+                    'encryption' => $settings['smtp_encryption'],
+                    'from_email' => $settings['from_email'],
+                    'from_name' => $settings['from_name'],
+                    'source' => 'database'
+                ];
+            }
+        }
+    } catch (Exception $e) {
+        error_log("Failed to load SMTP settings from database: " . $e->getMessage());
+    }
+    
+    // Fallback to constants or default Outlook settings
+    return [
+        'host' => defined('SMTP_HOST') ? SMTP_HOST : 'smtp-mail.outlook.com',
+        'port' => defined('SMTP_PORT') ? SMTP_PORT : 587,
+        'username' => defined('SMTP_USERNAME') ? SMTP_USERNAME : 'wallofmarketing@outlook.com',
+        'password' => defined('SMTP_PASSWORD') ? SMTP_PASSWORD : '',
+        'encryption' => defined('SMTP_ENCRYPTION') ? SMTP_ENCRYPTION : 'tls',
+        'from_email' => defined('SMTP_FROM_EMAIL') ? SMTP_FROM_EMAIL : 'wallofmarketing@outlook.com',
+        'from_name' => defined('SMTP_FROM_NAME') ? SMTP_FROM_NAME : 'Wall of Marketing',
+        'source' => 'constants'
+    ];
+}
 
 /**
- * Send Email Function
+ * SMTP Configuration Settings - Fallback Constants
+ * These are used only if database settings are not available
+ * 
+ * OUTLOOK/OFFICE 365 SETUP:
+ * - Host: smtp-mail.outlook.com or smtp.office365.com
+ * - Port: 587 (TLS recommended) or 25
+ * - Encryption: TLS (STARTTLS)
+ * - IMPORTANT: Use App Password, not regular password
+ * - Generate App Password at: https://account.microsoft.com/security
+ * - Navigate to: Advanced security options > App passwords > Create new app password
+ * 
+ * OTHER COMMON SMTP PROVIDERS:
+ * - Gmail: smtp.gmail.com, Port 587, TLS (requires App Password if 2FA enabled)
+ * - Hostinger: smtp.hostinger.com, Port 465, SSL
+ * - SendGrid: smtp.sendgrid.net, Port 587, TLS
+ * - Mailgun: smtp.mailgun.org, Port 587, TLS
+ */
+if(!defined('SMTP_HOST')) {
+    define('SMTP_HOST', 'smtp-mail.outlook.com');
+}
+if(!defined('SMTP_PORT')) {
+    define('SMTP_PORT', 587);
+}
+if(!defined('SMTP_ENCRYPTION')) {
+    define('SMTP_ENCRYPTION', 'tls');
+    define('SMTP_SECURE', 'tls');
+} else {
+    if(!defined('SMTP_SECURE')) {
+        define('SMTP_SECURE', SMTP_ENCRYPTION);
+    }
+}
+if(!defined('SMTP_USERNAME')) {
+    define('SMTP_USERNAME', 'wallofmarketing@outlook.com');
+}
+if(!defined('SMTP_PASSWORD')) {
+    define('SMTP_PASSWORD', '');
+}
+if(!defined('SMTP_FROM_EMAIL')) {
+    define('SMTP_FROM_EMAIL', 'wallofmarketing@outlook.com');
+}
+if(!defined('SMTP_FROM_NAME')) {
+    define('SMTP_FROM_NAME', 'Wall of Marketing');
+}
+
+/**
+ * Get Login SMTP Settings from Database
+ * Used specifically for admin OTP emails
+ * @return array|null SMTP configuration array or null if not configured
+ */
+function getLoginSMTPSettings() {
+    global $db; // Access global $db variable
+    
+    // Try to load from database (no caching to ensure fresh settings)
+    try {
+        if (!isset($db)) {
+            require_once __DIR__ . '/config.php';
+        }
+        
+        if (isset($db)) {
+            $stmt = $db->query("SELECT * FROM login_smtp_settings WHERE is_active = 1 ORDER BY id DESC LIMIT 1");
+            $settings = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($settings) {
+                return [
+                    'host' => $settings['smtp_host'],
+                    'port' => (int)$settings['smtp_port'],
+                    'username' => $settings['smtp_username'],
+                    'password' => $settings['smtp_password'],
+                    'encryption' => $settings['smtp_encryption'],
+                    'from_email' => $settings['from_email'],
+                    'from_name' => $settings['from_name'],
+                    'source' => 'database'
+                ];
+            }
+        }
+    } catch (Exception $e) {
+        error_log("Failed to load login SMTP settings from database: " . $e->getMessage());
+    }
+    
+    // Return null if not configured - will use fallback Outlook settings
+    return null;
+}
+
+/**
+ * Send Login OTP Email Function
+ * Uses dedicated login SMTP settings with fallback to Outlook constants
+ * 
+ * @param string $to Recipient email address
+ * @param string $subject Email subject
+ * @param string $body Email body (HTML)
+ * @return bool True on success, false on failure
+ */
+function sendLoginOTPEmail($to, $subject, $body) {
+    $mail = new PHPMailer(true);
+    
+    try {
+        // Try to get dedicated login SMTP settings first
+        $smtp = getLoginSMTPSettings();
+        
+        // If no login SMTP configured, use Outlook fallback
+        if ($smtp === null) {
+            $smtp = [
+                'host' => 'smtp-mail.outlook.com',
+                'port' => 587,
+                'username' => 'wallofmarketing@outlook.com',
+                'password' => defined('SMTP_PASSWORD') ? SMTP_PASSWORD : '',
+                'encryption' => 'tls',
+                'from_email' => 'wallofmarketing@outlook.com',
+                'from_name' => 'Wall of Marketing - Admin',
+                'source' => 'outlook_fallback'
+            ];
+            error_log("Login OTP Email: Using Outlook fallback settings");
+        }
+        
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = $smtp['host'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtp['username'];
+        $mail->Password   = $smtp['password'];
+        $mail->Port       = $smtp['port'];
+        $mail->CharSet    = 'UTF-8';
+        
+        // Set encryption based on port and settings
+        if($smtp['port'] == 587) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        } elseif($smtp['port'] == 465) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } elseif($smtp['encryption'] === 'ssl') {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } elseif($smtp['encryption'] === 'tls') {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        }
+        
+        // Debug output disabled for production (set to 2 for troubleshooting)
+        $mail->SMTPDebug  = 0;
+        
+        // Provider-specific options (works for Outlook, Gmail, etc.)
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+        
+        // Recipients
+        $mail->setFrom($smtp['from_email'], $smtp['from_name']);
+        $mail->addAddress($to);
+        $mail->addReplyTo($smtp['from_email'], $smtp['from_name']);
+        
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->AltBody = strip_tags($body);
+        
+        // Send email
+        $mail->send();
+        
+        // Log success
+        error_log("Login OTP Email sent successfully to: {$to} via {$smtp['source']} ({$smtp['host']})");
+        
+        return true;
+        
+    } catch (Exception $e) {
+        error_log("Login OTP Email Error: {$mail->ErrorInfo}");
+        error_log("Login OTP Email Exception: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Send Email Function (Original - for newsletters and general emails)
+ * Uses database SMTP settings
  * 
  * @param string $to Recipient email address
  * @param string $subject Email subject
@@ -37,28 +248,50 @@ function sendEmail($to, $subject, $body, $replyTo = null, $attachments = []) {
     $mail = new PHPMailer(true);
     
     try {
+        // Get SMTP settings from database
+        $smtp = getSMTPSettings();
+        
         // Server settings
         $mail->isSMTP();
-        $mail->Host       = SMTP_HOST;
+        $mail->Host       = $smtp['host'];
         $mail->SMTPAuth   = true;
-        $mail->Username   = SMTP_USERNAME;
-        $mail->Password   = SMTP_PASSWORD;
-        $mail->SMTPSecure = SMTP_SECURE;
-        $mail->Port       = SMTP_PORT;
+        $mail->Username   = $smtp['username'];
+        $mail->Password   = $smtp['password'];
+        $mail->Port       = $smtp['port'];
         $mail->CharSet    = 'UTF-8';
         
-        // Disable debug output for production
-        $mail->SMTPDebug  = 0; // Set to 2 for debugging
+        // Set encryption based on port and settings
+        if($smtp['port'] == 587) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        } elseif($smtp['port'] == 465) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } elseif($smtp['encryption'] === 'ssl') {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } elseif($smtp['encryption'] === 'tls') {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        }
+        
+        // Debug output disabled for production (set to 2 for troubleshooting)
+        $mail->SMTPDebug  = 0;
+        
+        // Provider-specific options
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
         
         // Recipients
-        $mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
+        $mail->setFrom($smtp['from_email'], $smtp['from_name']);
         $mail->addAddress($to);
         
         // Reply-to
         if($replyTo) {
             $mail->addReplyTo($replyTo);
         } else {
-            $mail->addReplyTo(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
+            $mail->addReplyTo($smtp['from_email'], $smtp['from_name']);
         }
         
         // Attachments
@@ -82,6 +315,7 @@ function sendEmail($to, $subject, $body, $replyTo = null, $attachments = []) {
         
     } catch (Exception $e) {
         error_log("Email Error: {$mail->ErrorInfo}");
+        error_log("Email Exception: " . $e->getMessage());
         return false;
     }
 }

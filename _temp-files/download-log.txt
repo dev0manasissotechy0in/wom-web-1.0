@@ -1,0 +1,42 @@
+[2025-11-21 03:26:12] Download request from ::1
+POST data: {"resource_id":"1","name":"Manas Mishra","email":"Manasissotechy@gmail.com","phone":"+916232511955","company":"Brackodd Production Pvt. Ltd."}
+
+[2025-11-21 03:26:12] DUPLICATE: Resource 1, Email Manasissotechy@gmail.com already downloaded
+[2025-11-21 10:27:27] Download request from ::1
+POST data: {"resource_id":"1","name":"Manas Mishra","email":"Manasissotechy@gmail.com","phone":"+916232511955","company":"Brackodd Production Pvt. Ltd."}
+
+[2025-11-21 10:27:27] DUPLICATE: Resource 1, Email Manasissotechy@gmail.com already downloaded
+[2025-11-21 12:16:41] Download request from ::1
+POST data: {"resource_id":"1","name":"Gurgaon","email":"manasissotechy@gmail.com","phone":"6232511955","company":"HULA"}
+
+[2025-11-21 12:16:41] Processing download...
+[2025-11-21 12:16:41] DUPLICATE DOWNLOAD: Resource 1, Email manasissotechy@gmail.com
+  Incrementing download count for resource 1
+  New download count: 25
+[2025-11-24 16:33:12] Download request from ::1
+POST data: {"resource_id":"1","name":"Manas Mishra","email":"Manasissotechy@gmail.com","phone":"+916232511955","company":"Brackodd Production Pvt. Ltd."}
+
+[2025-11-24 16:33:12] Processing download...
+[2025-11-24 16:33:12] DUPLICATE DOWNLOAD: Resource 1, Email Manasissotechy@gmail.com
+  Incrementing download count for resource 1
+  New download count: 26
+[2025-11-24 16:58:01] Download request from ::1
+POST data: {"resource_id":"1","name":"Manas Mishra","email":"Manasissotechy@gmail.com","phone":"+916232511955","company":"Brackodd Production Pvt. Ltd."}
+
+[2025-11-24 16:58:01] Processing download...
+[2025-11-24 16:58:01] DUPLICATE DOWNLOAD: Resource 1, Email Manasissotechy@gmail.com
+  Incrementing download count for resource 1
+  New download count: 27
+[2025-11-24 19:42:40] Download request from ::1
+POST data: {"resource_id":"1","name":"Amit Soni","email":"Allu_asissotechy@gmail.com","phone":"+916232511952","company":"SBrackodd Production Pvt. Ltd."}
+
+[2025-11-24 19:42:40] Processing download...
+[2025-11-24 19:42:40] NEW DOWNLOAD - Inserting record
+  Resource ID: 1
+  Name: Amit Soni
+  Email: Allu_asissotechy@gmail.com
+  Phone: +916232511952
+  Company: SBrackodd Production Pvt. Ltd.
+  INSERT SUCCESS - ID: 5
+  Incrementing download count for resource 1
+  New download count: 28

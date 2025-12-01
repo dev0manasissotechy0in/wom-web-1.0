@@ -7,6 +7,17 @@ $settings = getSiteSettings($db);
 $page_title = 'Book a Call';
 $page_description = 'Schedule a consultation call with our team';
 
+// Get dynamic booking price
+try {
+    $stmt = $db->prepare("SELECT setting_value FROM payment_settings WHERE setting_key = 'booking_price' LIMIT 1");
+    $stmt->execute();
+    $price_row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $booking_price = $price_row ? intval($price_row['setting_value']) : 999;
+} catch (PDOException $e) {
+    error_log('Error fetching booking price: ' . $e->getMessage());
+    $booking_price = 999;
+}
+
 // Include header
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -139,7 +150,7 @@ require_once __DIR__ . '/includes/header.php';
     <p>Fill in your details below and choose your preferred payment method to schedule a call with our team.</p>
     
     <div class="price-info">
-        <h3>₹999</h3>
+        <h3>₹<?php echo number_format($booking_price); ?></h3>
         <p>One-time consultation fee</p>
     </div>
     
@@ -224,13 +235,41 @@ require_once __DIR__ . '/includes/header.php';
                     body: formData
                 });
                 
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    throw new Error('Server returned non-JSON response');
-                }
+                const responseText = await response.text();
                 
-                const data = await response.json();
+                try {
+                    const data = JSON.parse(responseText);
+                    
+                    if (data.success) {
+                        // Redirect to payment gateway
+                        if (data.payment_url) {
+                            window.location.href = data.payment_url;
+                        } else {
+                            showAlert('Payment URL not provided', 'error');
+                        }
+                    } else {
+                        showAlert(data.message || data.error || 'Booking failed', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Proceed to Payment';
+                    }
+                } catch (parseError) {
+                    console.error('JSON Parse Error:', parseError);
+                    console.log('Raw response:', responseText);
+                    showAlert('Invalid server response. Check console for details.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Proceed to Payment';
+                }
+                console.log('Server response:', responseText);
+                
+                // Try to parse as JSON
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Failed to parse response:', parseError);
+                    console.error('Raw response:', responseText);
+                    throw new Error(`Invalid server response: ${responseText.substring(0, 100)}`);
+                }
                 
                 if (data.success) {
                     // Redirect to payment processor
@@ -246,7 +285,7 @@ require_once __DIR__ . '/includes/header.php';
                 }
             } catch (error) {
                 console.error('Booking error:', error);
-                showAlert('Network error. Please check console and try again.', 'error');
+                showAlert('Error: ' + error.message, 'error');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Proceed to Payment';
             }

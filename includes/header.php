@@ -34,7 +34,7 @@ if (!isset($site_settings) || empty($site_settings)) {
 $site_name = $site_settings['site_name'] ?? (defined('SITE_NAME') ? SITE_NAME : 'Wall of Marketing');
 $site_url = $site_settings['site_url'] ?? (defined('SITE_URL') ? SITE_URL : 'https://wallofmarketing.co');
 $site_url = rtrim($site_url, '/');
-$site_logo = $site_settings['site_logo'] ?? '/assets/images/logo.png';
+$site_logo = $site_settings['site_logo'] ?? '/assets/images/Logo.png';
 
 // Load SEO meta (prepares variables but doesn't output yet)
 require_once __DIR__ . '/seo-meta.php';
@@ -167,7 +167,7 @@ $base_url = $protocol . "://" . $_SERVER['HTTP_HOST'];
             <div class="logo">
                 <a href="/">
                     <?php if(!empty($settings['site_logo'])): ?>
-                        <img src="assets/images/logo.png" 
+                        <img src="assets/images/Logo.png" 
                              alt="<?php echo SITE_NAME; ?>" 
                              class="logo-img"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">

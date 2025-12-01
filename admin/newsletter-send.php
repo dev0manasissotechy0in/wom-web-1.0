@@ -1,53 +1,95 @@
 <?php
-declare(strict_types=1);
-require_once '../config/config.php';
-require_once '../classes/Newsletter.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../classes/Newsletter.php';
 
-// Authentication and CSRF protection
-if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-    die(json_encode(['error' => 'Unauthorized']));
+header('Content-Type: application/json');
+
+// Check if request is POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+    exit;
 }
 
-// REST API endpoint for sending newsletter
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $newsletter = new Newsletter($db);
-        
-        $subject = trim($_POST['subject'] ?? '');
-        $body = trim($_POST['body'] ?? '');
-        $newsletterName = trim($_POST['newsletter_name'] ?? 'main');
-        
-        // Validate input
-        if (empty($subject) || empty($body)) {
-            http_response_code(400);
-            die(json_encode(['error' => 'Subject and body are required']));
-        }
-        
-        // Send newsletter
-        $result = $newsletter->bulkSend($subject, $body, $newsletterName);
-        
-        // Log action
-        error_log("Newsletter sent: Sent={$result['sent']}, Failed={$result['failed']}");
-        
-        // Return JSON response
-        http_response_code(200);
-        echo json_encode([
-            'success' => true,
-            'sent' => $result['sent'],
-            'failed' => $result['failed'],
-            'message' => "Newsletter sent to {$result['sent']} subscribers",
-            'newsletter_name' => $newsletterName
-        ]);
-        
-    } catch (Exception $e) {
-        error_log("Error sending newsletter: " . $e->getMessage());
-        http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'error' => 'Error sending newsletter',
-            'message' => $e->getMessage()
-        ]);
-    }
+// Get form data
+$subject = trim($_POST['subject'] ?? '');
+$preheader = trim($_POST['preheader'] ?? '');
+$message = trim($_POST['message'] ?? '');
+
+// Validate input
+if (empty($subject) || empty($message)) {
+    echo json_encode(['success' => false, 'message' => 'Subject and message are required']);
     exit;
+}
+
+try {
+    // Get all subscribed users
+    $stmt = $db->prepare("SELECT id, email, created_at FROM newsletter_subscribers WHERE status = 'subscribed' ORDER BY id");
+    $stmt->execute();
+    $subscribers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    if (empty($subscribers)) {
+        echo json_encode(['success' => false, 'message' => 'No active subscribers found']);
+        exit;
+    }
+    
+    // Initialize newsletter class
+    $newsletter = new Newsletter($db);
+    
+    $sent_count = 0;
+    $failed_count = 0;
+    $failed_emails = [];
+    
+    // Send to each subscriber
+    foreach ($subscribers as $subscriber) {
+        try {
+            $subscriber_email = $subscriber['email'];
+            
+            // Generate unsubscribe link
+            $unsubscribe_token = md5($subscriber['id'] . $subscriber['email'] . $subscriber['created_at']);
+            $unsubscribe_link = "http://" . $_SERVER['HTTP_HOST'] . "/unsubscribe.php?email=" . urlencode($subscriber_email) . "&token=" . $unsubscribe_token;
+            
+            // Replace placeholders in message
+            $personalized_message = str_replace(
+                ['{subscriber_email}', '{unsubscribe_link}'],
+                [$subscriber_email, $unsubscribe_link],
+                $message
+            );
+            
+            // Send the email
+            $result = $newsletter->sendNewsletter($subscriber_email, $subject, $personalized_message, $preheader);
+            
+            if ($result) {
+                $sent_count++;
+            } else {
+                $failed_count++;
+                $failed_emails[] = $subscriber_email;
+            }
+            
+            // Small delay to avoid rate limiting
+            usleep(100000); // 0.1 second delay
+            
+        } catch (Exception $e) {
+            $failed_count++;
+            $failed_emails[] = $subscriber_email;
+            error_log("Newsletter send error for {$subscriber_email}: " . $e->getMessage());
+        }
+    }
+    
+    // Return success response
+    echo json_encode([
+        'success' => true,
+        'message' => 'Newsletter sent successfully',
+        'sent' => $sent_count,
+        'failed' => $failed_count,
+        'failed_emails' => $failed_emails
+    ]);
+    
+} catch (Exception $e) {
+    error_log("Newsletter send error: " . $e->getMessage());
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error sending newsletter: ' . $e->getMessage()
+    ]);
 }
 ?>

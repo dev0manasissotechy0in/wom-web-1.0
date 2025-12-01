@@ -16,13 +16,16 @@ require_once 'includes/header.php';
             $stmt = $db->query("SELECT * FROM services WHERE status = 'active' ORDER BY display_order");
             while($service = $stmt->fetch()): ?>
                 <div class="service-card" id="<?php echo e($service['slug']); ?>">
-                    <!--<div class="service-icon">-->
-                    <!--    <i class="<?php echo e($service['icon']); ?>"></i>-->
-                    <!--</div>-->
-                <div class="blog-image">
-                    <img src="<?php echo e($service['featured_image']); ?>" alt="<?php echo e($service['title']); ?>">
-                                </div>
-                    <h3><?php echo e($service['title']); ?></h3>
+                    <div class="blog-image">
+                        <a href="/service-detail?slug=<?php echo e($service['slug']); ?>">
+                            <img src="<?php echo e($service['featured_image']); ?>" alt="<?php echo e($service['title']); ?>">
+                        </a>
+                    </div>
+                    <h3>
+                        <a href="/service-detail?slug=<?php echo e($service['slug']); ?>" style="color: inherit; text-decoration: none;">
+                            <?php echo e($service['title']); ?>
+                        </a>
+                    </h3>
                     <p><?php echo e($service['description']); ?></p>
                     <!--Features Check-->
                     <div class="product-features">
@@ -36,7 +39,9 @@ require_once 'includes/header.php';
                                 <?php endforeach;
                                 endif; ?>
                             </div>
-                    <!-- <a href="/contact.php?service=<?php // echo e($service['slug']); ?>" class="btn-primary">Get Started</a> -->
+                    <a href="/service-detail?slug=<?php echo e($service['slug']); ?>" class="btn-primary" style="margin-top: 20px; display: inline-block;">
+                        <i class="fas fa-arrow-right"></i> Learn More
+                    </a>
                 </div>
             <?php endwhile; ?>
         </div>

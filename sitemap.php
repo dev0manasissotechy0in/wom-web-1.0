@@ -1,12 +1,29 @@
 <?php
 /**
  * Dynamic Sitemap Generator for Wall of Marketing
- * Works with your existing database structure
+ * Generates XML sitemap with all published content
  */
+
+// Disable error display to ensure clean XML output
+ini_set('display_errors', 0);
+error_reporting(0);
 
 require_once __DIR__ . '/config/config.php';
 
+// Set XML content type header
 header('Content-Type: application/xml; charset=utf-8');
+
+// Prevent any output buffering issues
+ob_clean();
+flush();
+
+// Update last generated timestamp
+try {
+    $stmt = $db->prepare("UPDATE site_settings SET setting_value = ? WHERE setting_key = 'sitemap_last_generated'");
+    $stmt->execute([date('Y-m-d H:i:s')]);
+} catch (PDOException $e) {
+    error_log("Sitemap timestamp update error: " . $e->getMessage());
+}
 
 // Get base URL from database
 try {
@@ -22,7 +39,8 @@ try {
 
 $base_url = rtrim($base_url, '/');
 
-echo '<?xml version="1.0" encoding="UTF-8"?>';
+// Start XML output
+echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

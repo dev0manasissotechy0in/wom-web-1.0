@@ -21,11 +21,21 @@ $settings = getSiteSettings($db);
                     </p>
                     <div class="footer-contact">
                         <?php if (!empty($settings['contact_phone'])): ?>
-    <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($settings['contact_phone']); ?></p>
-<?php endif; ?>
+                            <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($settings['contact_phone']); ?></p>
+                        <?php endif; ?>
                         <!--<p><i class="fas fa-phone"></i> <?php // echo $settings['contact_phone'] ?? '+91 1234567890'; ?></p>-->
-                        <p><i class="fas fa-envelope"></i> <?php echo $settings['contact_email'] ?? '[email protected]'; ?></p>
-                        <p><i class="fas fa-map-marker-alt"></i> <?php echo $settings['address'] ?? 'Your Address Here'; ?></p>
+
+                         <?php if (!empty($settings['contact_email'])): ?>
+                            <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($settings['contact_email']); ?></p>
+                        <?php endif; ?>
+
+                        <!-- <p><i class="fas fa-envelope"></i> <?php // echo $settings['contact_email'] ?? '[email protected]'; ?></p> -->
+
+                                                 <?php if (!empty($settings['address'])): ?>
+                            <p><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($settings['address']); ?></p>
+                        <?php endif; ?>
+
+                        <!-- <p><i class="fas fa-map-marker-alt"></i> <?php // echo $settings['address'] ?? 'Your Address Here'; ?></p> -->
                     </div>
                 </div>
                 
@@ -43,22 +53,50 @@ $settings = getSiteSettings($db);
                 </div>
                 
                 <!-- Legal Links -->
+                <?php if ($siteSettings->showFooterLegalLinks()): ?>
                 <div class="footer-col">
                     <h3 class="footer-title">Legal</h3>
                     <ul class="footer-links">
-                        <li><a href="/privacy-policy.php"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
-                        <li><a href="/terms-conditions.php"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
-                        <li><a href="/cookie-policy.php"><i class="fas fa-chevron-right"></i> Cookie Policy</a></li>
-                        <li><a href="/refund-policy.php"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
-                        <li><a href="/disclaimer.php"><i class="fas fa-chevron-right"></i> Disclaimer</a></li>
+                        <?php
+                        // Fetch dynamic legal pages from database
+                        try {
+                            $legalPages = $db->query("SELECT title, slug FROM pages WHERE show_in_footer = 1 AND status = 'published' ORDER BY footer_order ASC")->fetchAll(PDO::FETCH_ASSOC);
+                            if (!empty($legalPages)) {
+                                foreach ($legalPages as $page) {
+                                    echo '<li><a href="/page.php?slug=' . htmlspecialchars($page['slug']) . '"><i class="fas fa-chevron-right"></i> ' . htmlspecialchars($page['title']) . '</a></li>';
+                                }
+                            } else {
+                                // Fallback to static links if no pages found
+                                ?>
+                                <li><a href="/privacy-policy.php"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                                <li><a href="/terms-conditions.php"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                                <li><a href="/cookie-policy.php"><i class="fas fa-chevron-right"></i> Cookie Policy</a></li>
+                                <li><a href="/refund-policy.php"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                                <li><a href="/disclaimer.php"><i class="fas fa-chevron-right"></i> Disclaimer</a></li>
+                                <?php
+                            }
+                        } catch (Exception $e) {
+                            error_log("Error loading footer legal pages: " . $e->getMessage());
+                            // Fallback to static links on error
+                            ?>
+                            <li><a href="/privacy-policy.php"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                            <li><a href="/terms-conditions.php"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                            <li><a href="/cookie-policy.php"><i class="fas fa-chevron-right"></i> Cookie Policy</a></li>
+                            <li><a href="/refund-policy.php"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                            <li><a href="/disclaimer.php"><i class="fas fa-chevron-right"></i> Disclaimer</a></li>
+                            <?php
+                        }
+                        ?>
                     </ul>
                 </div>
+                <?php endif; ?>
                 
                 <!-- Newsletter -->
                 <div class="footer-col">
                     <h3 class="footer-title">Newsletter</h3>
                     <p class="footer-newsletter-text">Subscribe to get latest updates and insights</p>
                     <form id="newsletter-form" class="footer-newsletter-form">
+                        <input type="text" name="name" placeholder="Your Name" required style="margin-bottom: 10px;">
                         <input type="email" name="email" placeholder="Your Email Address" required>
                         <button type="submit">
                             <i class="fas fa-paper-plane"></i>
@@ -367,14 +405,16 @@ document.querySelectorAll('section').forEach(section => {
 
 .footer-newsletter-form {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 25px;
 }
 
 .footer-newsletter-form input {
-    flex: 1;
+    width: 100%;
     padding: 12px 15px;
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     outline: none;
     background: rgba(255,255,255,0.1);
     color: white;
@@ -396,10 +436,12 @@ document.querySelectorAll('section').forEach(section => {
     color: black;
     border: none;
     padding: 12px 20px;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
     font-size: 16px;
+    width: 100%;
+    font-weight: 600;
 }
 
 .footer-newsletter-form button:hover {

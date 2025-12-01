@@ -218,7 +218,7 @@ require_once 'includes/header.php';
                             </span>
                             
                             <?php if ($resource['image']): ?>
-                                <img src="/uploads/resources/<?php echo htmlspecialchars($resource['image']); ?>" 
+                                <img src="/assets/images/uploads/resources/<?php echo htmlspecialchars($resource['image']); ?>" 
                                      alt="<?php echo htmlspecialchars($resource['title']); ?>" 
                                      class="resource-image">
                             <?php else: ?>

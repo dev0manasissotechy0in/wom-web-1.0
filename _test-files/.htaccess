@@ -1,0 +1,7 @@
+# Deny all access to test files
+# These files should only be used in development
+
+<FilesMatch ".*">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

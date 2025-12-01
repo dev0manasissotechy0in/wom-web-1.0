@@ -1,14 +1,9 @@
 <?php
-session_start();
-
-// Simple authentication check
-if (!isset($_SESSION['admin_logged_in'])) {
-    header('Location: /admin/login.php');
-    exit;
-}
-
-// Load config and database connection
+// Security check first - centralized authentication
+require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/../config/config.php';
+
+$page_title = 'Manage Resources';
 
 // Handle delete
 if (isset($_GET['delete'])) {
@@ -20,11 +15,11 @@ if (isset($_GET['delete'])) {
         
         if ($resource) {
             // Delete files
-            if ($resource['image'] && file_exists("../uploads/resources/" . $resource['image'])) {
-                unlink("../uploads/resources/" . $resource['image']);
+            if ($resource['image'] && file_exists("../assets/images/uploads/resources/" . $resource['image'])) {
+                unlink("../assets/images/uploads/resources/" . $resource['image']);
             }
-            if ($resource['file_path'] && file_exists("../uploads/resources/" . $resource['file_path'])) {
-                unlink("../uploads/resources/" . $resource['file_path']);
+            if ($resource['file_path'] && file_exists("../assets/images/uploads/resources/" . $resource['file_path'])) {
+                unlink("../assets/images/uploads/resources/" . $resource['file_path']);
             }
             
             $db->prepare("DELETE FROM resources WHERE id = ?")->execute([$id]);
@@ -55,10 +50,11 @@ try {
     $error = "Error loading resources";
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<?php include 'includes/layout-start.php'; ?>
+    <div class="page-header">
+        <h1>Manage Resources</h1>
+        <a href="resource-add.php" class="btn-primary"><i class="fas fa-plus"></i> Add New Resource</a>
+    </div>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Resources - Admin</title>
@@ -267,22 +263,7 @@ try {
     </style>
 </head>
 <body>
-    <div class="admin-header">
-        <h1><i class="fas fa-shield-alt"></i> Admin Panel</h1>
-        <a href="/admin/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-
     <div class="container">
-        <div class="page-header">
-            <div>
-                <h2>Manage Resources</h2>
-                <p style="color:#666;margin-top:5px;">Create and manage downloadable resources</p>
-            </div>
-            <a href="resource-add.php" class="btn-add">
-                <i class="fas fa-plus"></i> Add New Resource
-            </a>
-        </div>
-
         <?php if (isset($success)): ?>
             <div class="alert alert-success"><?php echo $success; ?></div>
         <?php endif; ?>
@@ -331,7 +312,7 @@ try {
                             <tr>
                                 <td>
                                     <?php if ($resource['image']): ?>
-                                        <img src="../uploads/resources/<?php echo htmlspecialchars($resource['image']); ?>" 
+                                        <img src="../assets/images/uploads/resources/<?php echo htmlspecialchars($resource['image']); ?>" 
                                              alt="" class="resource-thumb">
                                     <?php else: ?>
                                         <div style="width:60px;height:60px;background:#e9ecef;border-radius:6px;display:flex;align-items:center;justify-content:center;">
@@ -377,12 +358,11 @@ try {
                 </table>
             </div>
         <?php else: ?>
-            <div class="no-resources">
-                <i class="fas fa-folder-open" style="font-size:60px;color:#ddd;margin-bottom:20px;"></i>
-                <h3>No Resources Yet</h3>
-                <p>Click "Add New Resource" to create your first resource.</p>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No resources found. Click "Add New Resource" to create one.
             </div>
         <?php endif; ?>
     </div>
-</body>
-</html>
+</div>
+
+<?php include 'includes/layout-end.php'; ?>

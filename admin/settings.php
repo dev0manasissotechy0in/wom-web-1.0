@@ -1,54 +1,16 @@
 <?php
-session_start();
-require_once '../config/config.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/config.php';
 
-if(!isset($_SESSION['admin_logged_in'])) {
-    header('Location: login.php');
-    exit();
-}
+$page_title = 'Settings';
 
 $message = '';
+$error = '';
 
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $fields = [
-            'site_name', 'contact_email', 'contact_phone', 'address',
-            'facebook_url', 'instagram_url', 'linkedin_url', 'twitter_url',
-            'meta_title', 'meta_description', 'meta_keywords',
-            'google_analytics_id', 'facebook_pixel_id', 'theme_color'
-        ];
-        
-        $updates = [];
-        $values = [];
-        
-        foreach($fields as $field) {
-            $updates[] = "$field = ?";
-            $values[] = sanitize($_POST[$field] ?? '');
-        }
-        
-        $sql = "UPDATE site_settings SET " . implode(', ', $updates) . " WHERE id = 1";
-        $stmt = $db->prepare($sql);
-        $stmt->execute($values);
-        
-        // After updating database, regenerate constants.php file
-        $constantsContent = generateConstantsFile($db);
-        if ($constantsContent !== false) {
-            $constantsPath = __DIR__ . '/../config/constants.php';
-            if (file_put_contents($constantsPath, $constantsContent)) {
-                $message = 'Settings updated successfully! Constants file regenerated.';
-            } else {
-                $message = 'Settings updated but failed to regenerate constants file. Check file permissions.';
-            }
-        }
-        
-    } catch(PDOException $e) {
-        error_log("Settings update error: " . $e->getMessage());
-        $message = 'Error updating settings. Please try again.';
-    }
-}
-
-// Get current settings
-$settings = getSiteSettings($db);
+// This page is being replaced by admin-settings.php which has better functionality
+// Redirect to admin-settings.php
+header('Location: admin-settings.php');
+exit();
 
 /**
  * Generate constants.php file from database settings
@@ -120,7 +82,7 @@ define('ASSETS_URL', SITE_URL . '/assets/');
 define('MAX_UPLOAD_SIZE', 5 * 1024 * 1024); // 5MB
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']);
 define('DEFAULT_IMAGE', SITE_URL . '/assets/images/default.jpg');
-define('LOGO_URL', SITE_URL . '/assets/images/logo.png');
+define('LOGO_URL', SITE_URL . '/assets/images/Logo.png');
 define('FAVICON_URL', SITE_URL . '/assets/images/favicon.ico');
 
 // ================================================

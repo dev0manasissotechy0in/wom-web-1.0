@@ -27,7 +27,7 @@ try {
         die('No file attached to this resource.');
     }
     
-    $filePath = __DIR__ . '/uploads/resources/' . $resource['file_path'];
+    $filePath = __DIR__ . '/assets/images/uploads/resources/' . $resource['file_path'];
     
     error_log("Attempting to download file: $filePath");
     

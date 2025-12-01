@@ -2,102 +2,103 @@
 
 <section class="page-hero">
 
-.read-more i {
-    font-size: 12px;
-    transition: transform 0.3s ease;
-}
+<!-- <style>
+    .read-more i {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
 
-.read-more:hover i {
-    transform: translateX(4px);
-}
+    .read-more:hover i {
+        transform: translateX(4px);
+    }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .page-hero {
-        padding: 60px 0 40px;
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .page-hero {
+            padding: 60px 0 40px;
+        }
+        
+        .page-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .page-hero p {
+            font-size: 1rem;
+        }
+        
+        .case-studies-page {
+            padding: 50px 0;
+        }
+        
+        .case-studies-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .filter-tabs {
+            gap: 10px;
+            padding: 0 15px;
+        }
+        
+        .filter-tab {
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+        
+        .case-study-image {
+            height: 200px;
+        }
+        
+        .case-study-content {
+            padding: 20px;
+        }
+        
+        .case-study-content h3 {
+            font-size: 1.2rem;
+        }
     }
-    
-    .page-hero h1 {
-        font-size: 2rem;
-    }
-    
-    .page-hero p {
-        font-size: 1rem;
-    }
-    
-    .case-studies-page {
-        padding: 50px 0;
-    }
-    
-    .case-studies-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .filter-tabs {
-        gap: 10px;
-        padding: 0 15px;
-    }
-    
-    .filter-tab {
-        padding: 10px 20px;
-        font-size: 13px;
-    }
-    
-    .case-study-image {
-        height: 200px;
-    }
-    
-    .case-study-content {
-        padding: 20px;
-    }
-    
-    .case-study-content h3 {
-        font-size: 1.2rem;
-    }
-}
 
-@media (max-width: 480px) {
-    .page-hero h1 {
-        font-size: 1.6rem;
+    @media (max-width: 480px) {
+        .page-hero h1 {
+            font-size: 1.6rem;
+        }
+        
+        .case-study-meta {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-tabs {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .filter-tab {
+            text-align: center;
+        }
     }
-    
-    .case-study-meta {
-        flex-direction: column;
-        gap: 10px;
+
+    /* Loading Animation */
+    .case-studies-grid.loading {
+        opacity: 0.5;
+        pointer-events: none;
     }
-    
-    .filter-tabs {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .filter-tab {
+
+    /* Empty State */
+    .no-results {
         text-align: center;
+        padding: 60px 20px;
+        color: #666;
+        font-size: 1.1rem;
     }
-}
 
-/* Loading Animation */
-.case-studies-grid.loading {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-/* Empty State */
-.no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-    font-size: 1.1rem;
-}
-
-.no-results i {
-    font-size: 3rem;
-    color: #ddd;
-    margin-bottom: 15px;
-    display: block;
-}
-</style>
+    .no-results i {
+        font-size: 3rem;
+        color: #ddd;
+        margin-bottom: 15px;
+        display: block;
+    }
+</style> -->
 
 <section class="page-hero">
     <div class="container">

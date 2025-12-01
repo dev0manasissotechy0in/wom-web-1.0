@@ -606,37 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
         font-size: 18px;
     }
 }
-</container>
-
-## What Changed:
-
-### Slider Configuration
-- **`slidesPerView: 1`**: Always shows 1 full-size product
-- **`centeredSlides: true`**: Centers the active slide
-- **`autoplay.delay: 4000`**: Auto-rotates every 4 seconds
-- **`loop: true`**: Continuous infinite loop
-- **`pauseOnMouseEnter: true`**: Pauses when user hovers
-
-### Visual Improvements
-- Centered layout with max-width for better focus
-- Smooth 800ms transitions
-- Larger navigation buttons with hover effects
-- Animated pagination dots (active dot expands)
-- Enhanced card hover effects
-
-### Optional Effect Variations
-Change `effect: 'slide'` to:
-- `'fade'` - Fade transition
-- `'cube'` - 3D cube rotation
-- `'coverflow'` - Apple Cover Flow style
-- `'flip'` - Card flip animation
-
-Perfect for showcasing your WOM SaaS products one at a time with full attention! 🚀
-
-
-
-<!--========================================================================================-->
-
+</style>
 
 <!-- Case Studies Section -->
 <section class="case-studies-section" id="case-studies">
@@ -978,9 +948,9 @@ Perfect for showcasing your WOM SaaS products one at a time with full attention!
             <p>Let's discuss how we can help your business grow online</p>
             <div class="cta-buttons">
                 <a href="/contact.php" class="btn-primary">Contact Us Today</a>
-                <a href="/book-call.php" class="btn-secondary">
+                <!-- <a href="/book-call.php" class="btn-secondary">
                     <i class="fas fa-phone"></i> Call Now
-                </a>
+                </a> -->
             </div>
         </div>
     </div>
@@ -996,7 +966,8 @@ Perfect for showcasing your WOM SaaS products one at a time with full attention!
             </div>
             
             <form id="home-newsletter-form" class="newsletter-form">
-                <input type="email" name="email" placeholder="Enter your email address" required>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email Address" required>
                 <button type="submit" class="btn-primary">
                     Subscribe <i class="fas fa-paper-plane"></i>
                 </button>

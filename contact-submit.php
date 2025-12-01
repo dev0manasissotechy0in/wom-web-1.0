@@ -28,133 +28,154 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     jsonResponse(false, 'Invalid request method');
 }
 
-// Get form data
+// 1. Get and Sanitize Basic Inputs
 $name = trim($_POST['name'] ?? '');
 $email = trim($_POST['email'] ?? '');
-$phone = trim($_POST['phone'] ?? '');
+$raw_phone = trim($_POST['phone'] ?? '');
 $subject = trim($_POST['subject'] ?? '');
 $message = trim($_POST['message'] ?? '');
 $ip_address = getRealIpAddress();
 $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
 
-// Validate required fields
-if (empty($name)) {
-    jsonResponse(false, 'Name is required');
+// 2. Validate Basic Fields
+if (empty($name)) jsonResponse(false, 'Name is required');
+if (empty($email)) jsonResponse(false, 'Email is required');
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) jsonResponse(false, 'Please enter a valid email address');
+if (empty($raw_phone)) jsonResponse(false, 'Phone number is required');
+if (empty($subject)) jsonResponse(false, 'Subject is required');
+if (empty($message)) jsonResponse(false, 'Message is required');
+
+// 3. Aggressive Phone Processing
+// Strip everything except numbers
+$phone_digits = preg_replace('/[^0-9]/', '', $raw_phone);
+
+// Ensure we have at least 10 digits
+if (strlen($phone_digits) < 10) {
+    jsonResponse(false, 'Please enter a valid phone number (at least 10 digits).');
 }
 
-if (empty($email)) {
-    jsonResponse(false, 'Email is required');
+// Get the "Subscriber Number" (The last 10 digits)
+// This is our unique identifier. 
+// e.g. From "09999999999" -> "9999999999"
+// e.g. From "919999999999" -> "9999999999"
+$subscriber_number = substr($phone_digits, -10);
+
+// (Optional) Logic to guess Country Code for storage, but NOT for checking duplicates
+$country_code = '';
+$stored_phone = $phone_digits; // Default to storing pure digits
+
+// Simple logic: If more than 10 digits, try to split CC and Phone
+if (strlen($phone_digits) > 10) {
+    // Remove leading zero if present (common in India 098...)
+    if (substr($phone_digits, 0, 1) === '0') {
+        $temp_digits = substr($phone_digits, 1);
+        if (strlen($temp_digits) >= 10) {
+            $phone_digits = $temp_digits;
+            $stored_phone = $temp_digits;
+        }
+    }
+    
+    // If still > 10, assume the excess at start is CC
+    if (strlen($phone_digits) > 10) {
+        $cc_len = strlen($phone_digits) - 10;
+        // Limit CC to reasonable length (1-3)
+        if ($cc_len <= 3) {
+            $country_code = substr($phone_digits, 0, $cc_len);
+            $stored_phone = substr($phone_digits, $cc_len);
+        }
+    }
 }
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    jsonResponse(false, 'Please enter a valid email address');
-}
-
-if (empty($phone)) {
-    jsonResponse(false, 'Phone number is required');
-}
-
-// Validate phone number (must contain at least 10 digits)
-$phoneDigits = preg_replace('/[^0-9]/', '', $phone);
-if (strlen($phoneDigits) < 10) {
-    jsonResponse(false, 'Please enter a valid phone number with at least 10 digits');
-}
-
-if (empty($subject)) {
-    jsonResponse(false, 'Subject is required');
-}
-
-if (empty($message)) {
-    jsonResponse(false, 'Message is required');
-}
-
-// Load config and database connection
+// Load DB
 try {
     require_once __DIR__ . '/config/config.php';
 } catch (Exception $e) {
-    error_log('Contact form config load error: ' . $e->getMessage());
-    jsonResponse(false, 'System error. Please try again later.');
+    error_log('Config error: ' . $e->getMessage());
+    jsonResponse(false, 'System error.');
 }
 
-// Save to database
 try {
-    // Create table if not exists
+    // Ensure table exists
     $db->exec("CREATE TABLE IF NOT EXISTS contact_inquiries (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         phone VARCHAR(50),
+        country_code VARCHAR(5),
         subject VARCHAR(500) NOT NULL,
         message TEXT NOT NULL,
         ip_address VARCHAR(50),
         user_agent TEXT,
-        status ENUM('new', 'read', 'replied') DEFAULT 'new',
+        status ENUM('new', 'read', 'responded', 'closed') DEFAULT 'new',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        INDEX idx_status (status),
-        INDEX idx_email (email),
-        INDEX idx_phone (phone),
-        INDEX idx_created (created_at)
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
-    
-    // Check if email already exists
-    $checkEmail = $db->prepare("SELECT COUNT(*) FROM contact_inquiries WHERE email = ?");
+
+    // Check Email Duplicate
+    $checkEmail = $db->prepare("SELECT id FROM contact_inquiries WHERE email = ? LIMIT 1");
     $checkEmail->execute([$email]);
-    $emailExists = $checkEmail->fetchColumn();
-    
-    if ($emailExists > 0) {
-        jsonResponse(false, 'This email is already registered. If you submitted a previous inquiry, we will respond shortly. For urgent matters, please call us directly.');
+    if ($checkEmail->fetch()) {
+        jsonResponse(false, 'This email is already registered. We will respond shortly.');
     }
+
+    // ---------------------------------------------------------
+    // ROBUST PHONE DUPLICATE CHECK
+    // ---------------------------------------------------------
+    // We search for the last 10 digits ($subscriber_number) inside the 'phone' column.
+    // We use multiple LIKE patterns to catch raw data or formatted data.
     
-    // Check if phone number already exists (only if phone is provided)
-    if (!empty($phone)) {
-        $checkPhone = $db->prepare("SELECT COUNT(*) FROM contact_inquiries WHERE phone = ?");
-        $checkPhone->execute([$phone]);
-        $phoneExists = $checkPhone->fetchColumn();
-        
-        if ($phoneExists > 0) {
-            jsonResponse(false, 'This phone number is already registered. If you submitted a previous inquiry, we will respond shortly. Please try with a different number or email us directly.');
-        }
+    $search_term = "%" . $subscriber_number; 
+    
+    $checkPhone = $db->prepare("
+        SELECT id FROM contact_inquiries 
+        WHERE 
+           -- 1. Direct match of the last 10 digits at the end of the string
+           phone LIKE ? 
+           
+           -- 2. Match even if spaces/dashes exist in DB (e.g. stored '+91 555 555 5555')
+           OR REPLACE(REPLACE(REPLACE(phone, ' ', ''), '-', ''), '+', '') LIKE ?
+    ");
+    
+    $checkPhone->execute([$search_term, $search_term]);
+    
+    if ($checkPhone->fetch()) {
+        jsonResponse(false, 'This phone number is already registered. We will respond shortly.');
     }
-    
-    // Insert data with IP address and user agent
+    // ---------------------------------------------------------
+
+    // Insert New Record
     $stmt = $db->prepare("INSERT INTO contact_inquiries 
-        (name, email, phone, subject, message, ip_address, user_agent) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)");
+        (name, email, phone, country_code, subject, message, ip_address, user_agent) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     
-    $result = $stmt->execute([
+    $stmt->execute([
         $name, 
         $email, 
-        $phone, 
+        $stored_phone, // We store the clean number
+        $country_code,
         $subject, 
         $message,
         $ip_address,
         $user_agent
     ]);
+
+    $id = $db->lastInsertId();
     
-    if ($result) {
-        $id = $db->lastInsertId();
-        
-        // Log successful submission
-        error_log("Contact form submitted - ID: {$id}, IP: {$ip_address}, Email: {$email}");
-        
-        // Try to send email (don't fail if it doesn't work)
-        @mail(
-            '[email protected]',
-            'New Contact: ' . $subject,
-            "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\n\nMessage:\n{$message}\n\n---\nIP: {$ip_address}\nUser Agent: {$user_agent}",
-            "From: noreply@self.manasissotechy.in\r\nReply-To: {$email}"
-        );
-        
-        jsonResponse(true, 'Thank you for contacting us! Your inquiry has been received. We will get back to you within 24-48 hours.', [
-            'id' => $id
-        ]);
-    } else {
-        throw new Exception('Failed to save');
-    }
+    // Formatting for Email Notification
+    $displayPhone = $country_code ? "+$country_code $stored_phone" : $stored_phone;
     
+    // Send Admin Email
+    @mail(
+        '[email protected]',
+        "New Inquiry: $subject",
+        "Name: $name\nEmail: $email\nPhone: $displayPhone\n\nMessage:\n$message",
+        "From: noreply@self.manasissotechy.in\r\nReply-To: $email"
+    );
+
+    jsonResponse(true, 'Thank you! Your inquiry has been received.', ['id' => $id]);
+
 } catch (Exception $e) {
-    error_log('Contact form save error: ' . $e->getMessage());
-    jsonResponse(false, 'Unable to save your message. Please try again or email us directly at [email protected]');
+    error_log("DB Error: " . $e->getMessage());
+    jsonResponse(false, 'Unable to submit form. Please try again.');
 }
 ?>

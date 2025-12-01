@@ -52,7 +52,7 @@ define('ASSETS_URL', SITE_URL . '/assets/');
 define('MAX_UPLOAD_SIZE', 5 * 1024 * 1024); // 5MB
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']);
 define('DEFAULT_IMAGE', SITE_URL . '/assets/images/default.jpg');
-define('LOGO_URL', SITE_URL . '/assets/images/logo.png');
+define('LOGO_URL', SITE_URL . '/assets/images/Logo.png');
 define('FAVICON_URL', SITE_URL . '/assets/images/favicon.ico');
 
 // ================================================

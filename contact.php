@@ -1,5 +1,9 @@
 <?php require_once 'includes/header.php'; ?>
 
+<?php
+$settings = getSiteSettings($db);
+?>
+
 <style>
 /* Contact Hero Section */
 .contact-hero {

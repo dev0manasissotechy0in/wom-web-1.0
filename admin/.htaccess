@@ -1,9 +1,12 @@
 # ================================================
-# ADMIN FOLDER - ALLOW .PHP EXTENSION REMOVAL
+# ADMIN FOLDER - SECURITY & URL REWRITING
 # ================================================
 
 RewriteEngine On
 RewriteBase /admin/
+
+# Disable directory listing
+Options -Indexes
 
 # Allow .php files to work with or without extension
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -11,5 +14,15 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.+)$ $1.php [L,QSA]
 
-# Disable directory listing
-Options -Indexes
+# Prevent access to sensitive files
+<FilesMatch "\.(sql|sqlite|db|env)$">
+    Deny from all
+</FilesMatch>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

@@ -83,3 +83,92 @@ window.addEventListener('unhandledrejection', function(e) {
     // Prevent unhandled rejection from breaking the page
     e.preventDefault();
 });
+
+// ==========================================
+// TABLE OF CONTENTS GENERATOR
+// ==========================================
+window.generateTableOfContents = function() {
+    const tocContainer = document.getElementById('table-of-contents');
+    const contentArea = document.querySelector('.blog-content');
+    
+    if (!tocContainer || !contentArea) return;
+
+    // Find all headings in the blog content
+    const headings = contentArea.querySelectorAll('h2, h3, h4');
+    
+    if (headings.length === 0) {
+        tocContainer.style.display = 'none';
+        return;
+    }
+
+    const tocList = document.createElement('ul');
+    tocList.className = 'toc-list';
+
+    headings.forEach((heading, index) => {
+        // Generate unique ID for the heading
+        const headingId = `heading-${index}`;
+        heading.id = headingId;
+
+        // Create TOC item
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        
+        // Determine nesting level
+        const level = heading.tagName.toLowerCase();
+        listItem.className = `toc-item toc-${level}`;
+        
+        link.href = `#${headingId}`;
+        link.textContent = heading.textContent;
+        link.className = 'toc-link';
+        
+        // Smooth scroll on click
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            heading.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update active state
+            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+
+        listItem.appendChild(link);
+        tocList.appendChild(listItem);
+    });
+
+    tocContainer.appendChild(tocList);
+
+    // Highlight active section on scroll
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function() {
+            let currentHeading = null;
+            const scrollPosition = window.scrollY + 100;
+
+            headings.forEach(heading => {
+                if (heading.offsetTop <= scrollPosition) {
+                    currentHeading = heading;
+                }
+            });
+
+            if (currentHeading) {
+                document.querySelectorAll('.toc-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentHeading.id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }, 100);
+    });
+};
+
+// Initialize TOC when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', generateTableOfContents);
+} else {
+    generateTableOfContents();
+}

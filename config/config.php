@@ -1,5 +1,11 @@
 <?php
-// session_start();
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Load Composer Autoloader
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Error Reporting
 error_reporting(E_ALL);
@@ -47,6 +53,10 @@ try {
 require_once __DIR__ . '/database.php';
 $database = new Database();
 $db = $database->connect();
+
+// Load Settings Class
+require_once __DIR__ . '/../classes/Settings.php';
+$siteSettings = Settings::getInstance($db);
 
 // Functions
 require_once __DIR__ . '/../includes/functions.php';

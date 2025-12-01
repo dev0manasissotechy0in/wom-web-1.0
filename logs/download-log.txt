@@ -1,0 +1,6 @@
+[2025-12-01 13:24:31] Download request from ::1
+POST data: {"resource_id":"1","name":"Jhon Bucky","email":"jhonbsdk@bsdk.com","phone":"5006002000202","company":"JOLYLLB2"}
+
+[2025-12-01 13:24:43] Download request from ::1
+POST data: {"resource_id":"1","name":"Jhon Bucky","email":"jhonbsdk@bsdk.com","phone":"50060020002","company":"JOLYLLB2"}
+

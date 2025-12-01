@@ -20,7 +20,7 @@ function getSiteSettings($db) {
         if (!$settings) {
             return [
                 'site_name' => SITE_NAME,
-                'site_logo' => '/assets/images/logo.png',
+                'site_logo' => '/assets/images/Logo.png',
                 'theme_color' => '#0066FF',
                 'contact_email' => ADMIN_EMAIL,
                 'contact_phone' => '+91 1234567890',
@@ -41,7 +41,7 @@ function getSiteSettings($db) {
         error_log("Error getting site settings: " . $e->getMessage());
         return [
             'site_name' => SITE_NAME,
-            'site_logo' => '/assets/images/logo.png',
+            'site_logo' => '/assets/images/Logo.png',
             'theme_color' => '#0066FF'
         ];
     }

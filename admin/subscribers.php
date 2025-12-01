@@ -1,14 +1,9 @@
 <?php
-session_start();
-require_once '../config/config.php';
-require_once '../classes/Newsletter.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/../config/config.php';
 
-if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-    header('Location: login.php');
-    exit();
-}
+$page_title = 'Newsletter Subscribers';
 
-$newsletter = new Newsletter($db);
 $filters = [
     'newsletter' => $_GET['newsletter'] ?? 'main',
     'status' => $_GET['status'] ?? 'all',
@@ -43,29 +38,22 @@ $subscribers = $db->prepare("SELECT * FROM newsletter_subscribers $whereClause O
 $subscribers->execute($parameters);
 $subscribers = $subscribers->fetchAll();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newsletter Subscribers</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
-</head>
-<body>
-    <div class="admin-header">
-        <h1><i class="fas fa-users"></i> Newsletter Subscribers</h1>
-        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<?php include 'includes/layout-start.php'; ?>
+    <div class="page-header">
+        <h1>Newsletter Subscribers</h1>
+        <p>Manage newsletter subscriptions</p>
     </div>
     
-    <div class="container">
-        <div class="content-card">
-            <h2>Manage Subscribers</h2>
-            
-            <form method="get" class="admin-filters">
-                <div class="filter-group">
-                    <select name="newsletter">
+    <div class="content-card">
+        <div class="card-header">
+            <h3>Filter Subscribers</h3>
+        </div>
+        
+        <form method="get" style="padding: 20px;">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Newsletter</label>
+                    <select name="newsletter" class="form-control">
                         <option value="all">All Newsletters</option>
                         <?php foreach ($newsletterNames as $nl): ?>
                             <option value="<?php echo htmlspecialchars($nl); ?>" <?php echo ($filters['newsletter'] == $nl ? 'selected' : ''); ?>>
@@ -73,73 +61,94 @@ $subscribers = $subscribers->fetchAll();
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    
-                    <select name="status">
+                </div>
+                
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control">
                         <option value="all">All Status</option>
                         <option value="subscribed" <?php echo ($filters['status'] == 'subscribed' ? 'selected' : ''); ?>>Subscribed</option>
                         <option value="unsubscribed" <?php echo ($filters['status'] == 'unsubscribed' ? 'selected' : ''); ?>>Unsubscribed</option>
                     </select>
-                    
-                    <input type="text" name="search" placeholder="Search by email or name" value="<?php echo htmlspecialchars($filters['search']); ?>">
-                    <button type="submit" class="btn-primary"><i class="fas fa-search"></i> Search</button>
                 </div>
-            </form>
-            
-            <div class="admin-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Newsletter</th>
-                            <th>Status</th>
-                            <th>Joined</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                
+                <div class="form-group">
+                    <label>Search</label>
+                    <input type="text" name="search" class="form-control" placeholder="Search by email or name" value="<?php echo htmlspecialchars($filters['search']); ?>">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+        </form>
+    </div>
+    
+    <div class="content-card">
+        <div class="card-header">
+            <h3>All Subscribers (<?php echo count($subscribers); ?>)</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Newsletter</th>
+                        <th>Status</th>
+                        <th>Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(count($subscribers) > 0): ?>
                         <?php foreach ($subscribers as $subscriber): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($subscriber['email']); ?></td>
-                            <td><?php echo htmlspecialchars($subscriber['name']); ?></td>
+                            <td><?php echo htmlspecialchars($subscriber['name'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($subscriber['newsletter_name']); ?></td>
-                            <td><?php echo htmlspecialchars($subscriber['status']); ?></td>
+                            <td><span class="badge <?php echo $subscriber['status'] == 'subscribed' ? 'badge-success' : 'badge-warning'; ?>"><?php echo htmlspecialchars($subscriber['status']); ?></span></td>
                             <td><?php echo date('M d, Y', strtotime($subscriber['created_at'])); ?></td>
                             <td>
                                 <?php if ($subscriber['status'] === 'subscribed'): ?>
-                                    <button class="btn btn-danger unsubscribe-btn" data-email="<?php echo htmlspecialchars($subscriber['email']); ?>" data-newsletter="<?php echo htmlspecialchars($subscriber['newsletter_name']); ?>">
-                                        <i class="fas fa-trash"></i> Unsubscribe
+                                    <button class="btn-icon btn-danger unsubscribe-btn" data-email="<?php echo htmlspecialchars($subscriber['email']); ?>" data-newsletter="<?php echo htmlspecialchars($subscriber['newsletter_name']); ?>" title="Unsubscribe">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 30px; color: #999;">No subscribers found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
-    
-    <script>
-    // Add unsubscribe functionality
+</div>
+
+<script>
     document.querySelectorAll('.unsubscribe-btn').forEach(btn => {
         btn.addEventListener('click', async function() {
             const email = this.dataset.email;
             const newsletter = this.dataset.newsletter;
             
             if (confirm('Are you sure you want to unsubscribe this user?')) {
-                const response = await fetch('/api/unsubscribe.php?email=' + encodeURIComponent(email) + '&newsletter=' + encodeURIComponent(newsletter));
-                const data = await response.json();
-                
-                if (data.success) {
-                    alert('User unsubscribed successfully');
-                    location.reload();
-                } else {
-                    alert('Error: ' + data.message);
+                try {
+                    const response = await fetch('/api/unsubscribe.php?email=' + encodeURIComponent(email) + '&newsletter=' + encodeURIComponent(newsletter));
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('User unsubscribed successfully');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + (data.message || 'Unknown error'));
+                    }
+                } catch(err) {
+                    alert('Error: ' + err.message);
                 }
             }
         });
     });
-    </script>
-</body>
-</html>
+</script>
+
+<?php include 'includes/layout-end.php'; ?>

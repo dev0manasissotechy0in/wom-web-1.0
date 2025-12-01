@@ -1,8 +1,4 @@
 <?php require_once 'includes/header.php'; ?>
-.legal-content li { color: #666; line-height: 1.8; margin-bottom: 10px; }
-.last-updated { background: #f8f8f8; padding: 15px 20px; border-left: 4px solid #000; margin-bottom: 40px; font-style: italic; color: #666; }
-.info-box { background: #f8f8f8; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #000; }
-</style>
 
 <section class="page-hero">
     <div class="container">

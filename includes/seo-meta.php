@@ -198,7 +198,7 @@ function renderSeoMeta() {
     "name": "<?= $site_name ?>",
     "logo": {
       "@type": "ImageObject",
-      "url": "<?= $site_url ?><?= $site_settings['site_logo'] ?? '/assets/images/logo.png' ?>"
+      "url": "<?= $site_url ?><?= $site_settings['site_logo'] ?? '/assets/images/Logo.png' ?>"
     }
   },
   "datePublished": "<?= $published_date ?>",

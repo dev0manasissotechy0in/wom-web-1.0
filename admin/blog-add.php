@@ -1,15 +1,3 @@
-<head>
-        <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Summernote CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    
-    <!-- Summernote JS -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    
-</head>
-
 <?php
 // Include config - this loads functions.php too
 require_once '../config/config.php';
@@ -77,6 +65,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $status
             ]);
             
+            // Auto-sync tags to blog_tags table
+            if(!empty($tags)) {
+                $tagsArray = array_map('trim', explode(',', $tags));
+                foreach($tagsArray as $tagName) {
+                    if(!empty($tagName)) {
+                        $tagSlug = strtolower(str_replace(' ', '-', $tagName));
+                        
+                        // Check if tag exists in blog_tags
+                        $checkTag = $db->prepare("SELECT id FROM blog_tags WHERE slug = ?");
+                        $checkTag->execute([$tagSlug]);
+                        
+                        if(!$checkTag->fetch()) {
+                            // Insert new tag
+                            $insertTag = $db->prepare("INSERT INTO blog_tags (name, slug, created_at) VALUES (?, ?, NOW())");
+                            $insertTag->execute([$tagName, $tagSlug]);
+                        }
+                    }
+                }
+            }
+            
             header('Location: blogs.php?msg=added');
             exit();
             
@@ -94,9 +102,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Blog - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
         .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
         .page-header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .page-header h1 { color: #333; font-size: 24px; }
@@ -127,10 +134,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
-    <?php include 'includes/topbar.php'; ?>
-
-    <div class="container">
-        <?php include 'includes/sidebar.php'; ?>
+    <?php include 'includes/sidebar.php'; ?>
+    
+    <div class="main-content">
+        <?php include 'includes/topbar.php'; ?>
+        
+        <div class="content">
+            <div class="container">
         <a href="blogs.php" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to Blogs
         </a>
@@ -219,11 +229,36 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
-                    <label for="tags">Tags (comma-separated)</label>
+                    <label for="tags">Tags</label>
                     <input type="text" id="tags" name="tags" 
                            value="<?php echo isset($_POST['tags']) ? htmlspecialchars($_POST['tags']) : ''; ?>"
-                           placeholder="SEO, Marketing, Social Media">
-                    <small>Add tags separated by commas for better organization.</small>
+                           placeholder="Type to search tags...">
+                    <small>Add tags separated by commas. Start typing to see suggestions from existing tags.</small>
+                    
+                    <?php
+                    // Fetch available tags
+                    try {
+                        $tagsStmt = $db->query("SELECT name FROM blog_tags ORDER BY name ASC");
+                        $availableTags = $tagsStmt->fetchAll(PDO::FETCH_COLUMN);
+                        if(!empty($availableTags)): ?>
+                            <div style="margin-top: 10px;">
+                                <strong style="font-size: 13px; color: #666;">Available Tags:</strong>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;" id="available-tags">
+                                    <?php foreach($availableTags as $tag): ?>
+                                        <span class="tag-suggestion" style="background: #f0f0f0; padding: 5px 12px; border-radius: 15px; font-size: 13px; cursor: pointer; transition: all 0.3s;"
+                                              onclick="addTag('<?php echo htmlspecialchars($tag); ?>')"
+                                              title="Click to add this tag">
+                                            <i class="fas fa-plus" style="font-size: 10px; margin-right: 4px;"></i>
+                                            <?php echo htmlspecialchars($tag); ?>
+                                        </span>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endif;
+                    } catch(Exception $e) {
+                        // Silently fail if tags table doesn't exist yet
+                    }
+                    ?>
                 </div>
 
                 <div class="form-group">
@@ -249,22 +284,74 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form>
         </div>
+            </div>
+        </div>
     </div>
 
     <!-- CKEditor for rich text editing -->
-    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
     <script>
-        CKEDITOR.replace('content', {
-            height: 400,
+        // Wait for CKEditor to load
+        if (typeof CKEDITOR !== 'undefined') {
+            CKEDITOR.replace('content', {
+            height: 500,
+            extraPlugins: 'embed,embedsemantic,image2,uploadimage,codesnippet,widget,lineutils',
             removePlugins: 'elementspath',
-            resize_enabled: false,
+            resize_enabled: true,
+            embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+            codeSnippet_theme: 'monokai_sublime',
             toolbar: [
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Blockquote'] },
-                { name: 'links', items: ['Link', 'Unlink'] },
-                { name: 'insert', items: ['Image', 'Table'] },
-                { name: 'styles', items: ['Format'] }
+                { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+                { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+                '/',
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                '/',
+                { name: 'insert', items: ['Image', 'EmbedSemantic', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak', 'Iframe', 'CodeSnippet'] },
+                { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize', 'ShowBlocks'] }
+            ],
+            contentsCss: [
+                'https://cdn.ckeditor.com/4.25.1-lts/full/contents.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css'
             ]
+            });
+        } else {
+            console.error('CKEditor failed to load');
+            alert('CKEditor failed to load. Please refresh the page.');
+        });
+        
+        // Tag suggestion functionality
+        function addTag(tagName) {
+            const tagsInput = document.getElementById('tags');
+            const currentTags = tagsInput.value.trim();
+            
+            // Check if tag already exists
+            const tagsArray = currentTags.split(',').map(t => t.trim().toLowerCase());
+            if(tagsArray.includes(tagName.toLowerCase())) {
+                return; // Tag already added
+            }
+            
+            if(currentTags) {
+                tagsInput.value = currentTags + ', ' + tagName;
+            } else {
+                tagsInput.value = tagName;
+            }
+        }
+        
+        // Add hover effect to tag suggestions
+        document.querySelectorAll('.tag-suggestion').forEach(tag => {
+            tag.addEventListener('mouseenter', function() {
+                this.style.background = '#000';
+                this.style.color = 'white';
+            });
+            tag.addEventListener('mouseleave', function() {
+                this.style.background = '#f0f0f0';
+                this.style.color = 'inherit';
+            });
         });
     </script>
 </body>

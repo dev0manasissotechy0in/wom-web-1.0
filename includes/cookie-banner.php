@@ -67,7 +67,7 @@ $showBanner = !$hasConsent ? 'block' : 'none';
             <button id="acceptAllBtn" class="btn-accept-all" onclick="acceptAllCookies()">Accept All</button>
             <button id="savePreferencesBtn" class="btn-save" onclick="acceptSelectedCookies()">Save Preferences</button>
             <button id="rejectAllBtn" class="btn-reject" onclick="rejectAllCookies()">Reject All</button>
-            <a href="/cookie-policy.php" class="btn-learn-more">Learn More</a>
+            <a href="/page?slug=cookie-policy" class="btn-learn-more">Learn More</a>
         </div>
     </div>
 </div>

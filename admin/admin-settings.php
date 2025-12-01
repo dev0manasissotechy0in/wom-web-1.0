@@ -4,13 +4,8 @@
  * Compatible with your current site_settings table
  */
 
+require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/../config/config.php';
-
-// Check admin authentication
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: /admin/login.php');
-    exit();
-}
 
 $admin_id = $_SESSION['admin_id'];
 $message = '';
@@ -180,110 +175,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $page_title = 'Settings';
 ?>
+<?php include 'includes/layout-start.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings - <?= $site_settings['site_name'] ?? 'Admin' ?></title>
-    <link rel="stylesheet" href="/admin/assets/css/admin.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f7fa; }
-        .settings-container { max-width: 1200px; margin: 20px auto; padding: 20px; }
-        .page-header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .page-header h1 { color: #333; margin-bottom: 5px; }
-        .settings-tabs { display: flex; gap: 10px; border-bottom: 2px solid #e0e0e0; margin-bottom: 30px; overflow-x: auto; }
-        .tab-btn { padding: 12px 24px; background: none; border: none; cursor: pointer; font-size: 16px; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; white-space: nowrap; }
-        .tab-btn.active { color: #0066FF; border-bottom-color: #0066FF; font-weight: 500; }
-        .tab-btn:hover { color: #0066FF; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .settings-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .settings-card h2 { margin: 0 0 20px 0; color: #333; font-size: 22px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; transition: border 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #0066FF; }
-        .form-group textarea { min-height: 100px; resize: vertical; font-family: inherit; }
-        .form-group small { display: block; margin-top: 5px; color: #666; font-size: 13px; }
-        .btn { padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; }
-        .btn-primary { background: #0066FF; color: white; }
-        .btn-primary:hover { background: #0052cc; }
-        .alert { padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .info-box { background: #e7f3ff; padding: 15px; border-radius: 4px; margin-bottom: 15px; font-size: 14px; color: #0066FF; border-left: 4px solid #0066FF; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
-    <?php include __DIR__ . '/includes/topbar.php'; ?>
+    <div class="page-header">
+        <h1>⚙️ Settings</h1>
+        <p style="color: #666; margin-top: 5px;">Manage your site configuration and preferences</p>
+    </div>
 
-    <div class="settings-container">
-        <div class="page-header">
-            <h1>⚙️ Settings</h1>
-            <p style="color: #666; margin-top: 5px;">Manage your site configuration and preferences</p>
+    <?php if ($message): ?>
+        <div class="alert alert-success">✓ <?= htmlspecialchars($message) ?></div>
+    <?php endif; ?>
+
+    <?php if ($error): ?>
+        <div class="alert alert-error">✗ <?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
+
+    <div class="settings-tabs">
+        <button class="tab-btn active" onclick="switchTab('profile')">👤 Profile</button>
+        <button class="tab-btn" onclick="switchTab('site')">🌐 Site Settings</button>
+        <button class="tab-btn" onclick="switchTab('seo')">🔍 SEO</button>
+        <button class="tab-btn" onclick="switchTab('tracking')">📊 Tracking</button>
+        <button class="tab-btn" onclick="switchTab('social')">📱 Social Media</button>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profile-tab" class="tab-content active">
+        <div class="settings-card">
+            <h2>Profile Information</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="update_profile">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="full_name" value="<?= htmlspecialchars($admin['full_name'] ?? '') ?>" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" value="<?= htmlspecialchars($admin['email'] ?? '') ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username *</label>
+                        <input type="text" name="username" value="<?= htmlspecialchars($admin['username'] ?? '') ?>" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">💾 Save Profile</button>
+            </form>
         </div>
 
-        <?php if ($message): ?>
-            <div class="alert alert-success">✓ <?= htmlspecialchars($message) ?></div>
-        <?php endif; ?>
-
-        <?php if ($error): ?>
-            <div class="alert alert-error">✗ <?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
-
-        <div class="settings-tabs">
-            <button class="tab-btn active" onclick="switchTab('profile')">👤 Profile</button>
-            <button class="tab-btn" onclick="switchTab('site')">🌐 Site Settings</button>
-            <button class="tab-btn" onclick="switchTab('seo')">🔍 SEO</button>
-            <button class="tab-btn" onclick="switchTab('tracking')">📊 Tracking</button>
-            <button class="tab-btn" onclick="switchTab('social')">📱 Social Media</button>
-        </div>
-
-        <!-- Profile Tab -->
-        <div id="profile-tab" class="tab-content active">
-            <div class="settings-card">
-                <h2>Profile Information</h2>
-                <form method="POST">
-                    <input type="hidden" name="action" value="update_profile">
+        <div class="settings-card">
+            <h2>Change Password</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="change_password">
+                <div class="form-group">
+                    <label>Current Password *</label>
+                    <input type="password" name="current_password" required>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
-                        <label>Full Name *</label>
-                        <input type="text" name="full_name" value="<?= htmlspecialchars($admin['full_name'] ?? '') ?>" required>
+                        <label>New Password *</label>
+                        <input type="password" name="new_password" required minlength="6">
+                        <small>Minimum 6 characters</small>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" name="email" value="<?= htmlspecialchars($admin['email'] ?? '') ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Username *</label>
-                            <input type="text" name="username" value="<?= htmlspecialchars($admin['username'] ?? '') ?>" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">💾 Save Profile</button>
-                </form>
-            </div>
-
-            <div class="settings-card">
-                <h2>Change Password</h2>
-                <form method="POST">
-                    <input type="hidden" name="action" value="change_password">
                     <div class="form-group">
-                        <label>Current Password *</label>
-                        <input type="password" name="current_password" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>New Password *</label>
-                            <input type="password" name="new_password" required minlength="6">
-                            <small>Minimum 6 characters</small>
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm New Password *</label>
+                        <label>Confirm New Password *</label>
                             <input type="password" name="confirm_password" required minlength="6">
                         </div>
                     </div>
@@ -471,5 +425,5 @@ $page_title = 'Settings';
             descCount.textContent = descInput.value.length;
         }
     </script>
-</body>
-</html>
+
+<?php include 'includes/layout-end.php'; ?>

@@ -259,14 +259,14 @@ body {
         <?php if(getField($case_study, 'challenge')): ?>
         <div class="content-section">
             <h2><i class="fas fa-exclamation-triangle"></i> The Challenge</h2>
-            <p><?php echo nl2br(htmlspecialchars(getField($case_study, 'challenge'))); ?></p>
+            <div><?php echo getField($case_study, 'challenge'); ?></div>
         </div>
         <?php endif; ?>
 
         <?php if(getField($case_study, 'solution')): ?>
         <div class="content-section">
             <h2><i class="fas fa-lightbulb"></i> Our Solution</h2>
-            <p><?php echo nl2br(htmlspecialchars(getField($case_study, 'solution'))); ?></p>
+            <div><?php echo getField($case_study, 'solution'); ?></div>
             
             <?php if(!empty($services)): ?>
             <h3>Services Provided:</h3>
@@ -282,7 +282,7 @@ body {
         <?php if(getField($case_study, 'results')): ?>
         <div class="content-section">
             <h2><i class="fas fa-chart-line"></i> The Results</h2>
-            <p><?php echo nl2br(htmlspecialchars(getField($case_study, 'results'))); ?></p>
+            <div><?php echo getField($case_study, 'results'); ?></div>
         </div>
         <?php endif; ?>
     </div>

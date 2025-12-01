@@ -28,18 +28,13 @@ header('Content-Type: text/csv');
 header('Content-Disposition: attachment; filename="leads_' . date('Y-m-d') . '.csv"');
 
 $output = fopen('php://output', 'w');
-$titles = $leads[0];
+
+// Write header row with all column names
 fputcsv($output, array_keys($leads[0]));
 
+// Write all data rows with all fields
 foreach ($leads as $lead) {
-    fputcsv($output, [
-        $lead['name'],
-        $lead['email'],
-        $lead['phone'],
-        $lead['company'],
-        $lead['ip_address'],
-        date('Y-m-d H:i:s', strtotime($lead['downloaded_at']))
-    ]);
+    fputcsv($output, $lead);
 }
 
 fclose($output);

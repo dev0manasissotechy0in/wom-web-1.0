@@ -1,0 +1,7 @@
+# Deny all access to temporary files
+# Logs and temp data should not be publicly accessible
+
+<FilesMatch ".*">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
